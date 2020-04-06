@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".AutomaticControllActivity"
+    android:background="@color/white">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/first_automatic_relativelayout">
+
+        <Button
+            android:id="@+id/automatic_controll_button"
+            android:layout_width="180dp"
+            android:layout_height="100dp"
+            android:background="@color/colorAccent"
+            android:text="Auto"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="15dp"
+            android:textColor="@color/black"
+            android:textSize="32dp">
+        </Button>
+
+        <RelativeLayout
+            android:id="@+id/direction_relativelayout"
+            android:layout_width="180dp"
+            android:layout_height="100dp"
+            android:layout_toEndOf="@id/automatic_controll_button"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="15dp"
+            android:background="@drawable/bkg_rectangle_with_border">
+
+            <TextView
+                android:id="@+id/direction_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:text="Dirección (º)"
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                android:gravity="center_horizontal"
+                android:layout_marginTop="2dp"
+                android:textSize="20dp">
+            </TextView>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="2dp"
+                android:text="0"
+                android:layout_below="@id/direction_title"
+                android:textColor="@color/black"
+                android:textSize="40dp">
+            </TextView>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/speed_relativelayout"
+            android:layout_width="180dp"
+            android:layout_height="100dp"
+            android:layout_toEndOf="@id/direction_relativelayout"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="15dp"
+            android:background="@drawable/bkg_rectangle_with_border">
+
+            <TextView
+                android:id="@+id/speed_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:gravity="center_horizontal"
+                android:text="Velocidad (Km/h)"
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                android:textSize="20dp">
+            </TextView>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:text="0"
+                android:layout_below="@id/speed_title"
+                android:textColor="@color/black"
+                android:layout_marginTop="2dp"
+                android:textSize="40dp">
+            </TextView>
+        </RelativeLayout>
+    </RelativeLayout>
+</RelativeLayout>
