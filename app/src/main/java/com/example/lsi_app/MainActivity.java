@@ -22,6 +22,7 @@ public class MainActivity extends AppCompatActivity {
         manualButtonImageview = findViewById(R.id.manual_button_imageview);
         automaticButtonImageView = findViewById(R.id.automatic_button_imageview);
         manualButtonImageview.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_ATOP);
+        automaticButtonImageView.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_ATOP);
 
         manualButtonImageview.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -38,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    public void navigateToManualActivity(){
+    private void navigateToManualActivity(){
         Intent intent = new Intent (MainActivity.this, ManualControllActivity.class);
         startActivity(intent);
         finish();
