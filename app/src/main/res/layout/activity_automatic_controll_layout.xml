@@ -279,7 +279,9 @@
             </Button>
         </RelativeLayout>
     </RelativeLayout>
+
     <RelativeLayout
+        android:id="@+id/play_pause_relativelayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/automatic_switch_relativelayout"
@@ -303,6 +305,49 @@
             android:layout_below="@id/continue_button"
             android:layout_marginTop="5dp">
         </ImageView>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/auto_modes_relativelayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_toEndOf="@id/play_pause_relativelayout"
+        android:layout_below="@id/first_automatic_relativelayout"
+        android:layout_marginTop="40dp"
+        android:layout_centerHorizontal="true"
+        android:gravity="center_horizontal">
+
+    <Button
+        android:id="@+id/stanley_mode_button"
+        android:layout_width="110dp"
+        android:layout_height="50dp"
+        android:text="Stanley Mode"
+        android:layout_marginLeft="10dp"
+        android:textColor="@color/black"
+        android:textSize="20dp"
+        android:background="@color/grey_light">
+    </Button>
+    <Button
+        android:id="@+id/h_infinite_mode_button"
+        android:layout_width="110dp"
+        android:layout_height="50dp"
+        android:text="H infinite mode"
+        android:layout_marginLeft="10dp"
+        android:textColor="@color/black"
+        android:textSize="20dp"
+        android:layout_toEndOf="@id/stanley_mode_button"
+        android:background="@color/grey_light"/>
+
+    <Button
+        android:id="@+id/verde_mode_button"
+        android:layout_width="110dp"
+        android:layout_height="50dp"
+        android:text="V.E.R.D.E Mode"
+        android:layout_marginLeft="10dp"
+        android:textColor="@color/black"
+        android:textSize="20dp"
+        android:background="@color/grey_light"
+        android:layout_toEndOf="@id/h_infinite_mode_button"/>
     </RelativeLayout>
 
     <ImageView

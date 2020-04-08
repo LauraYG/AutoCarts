@@ -22,6 +22,9 @@ public class AutomaticControllActivity extends AppCompatActivity {
     private Button steeringManualButton;
     private Button brakeAutoButton;
     private Button brakeManualButton;
+    private Button stanleyModeButton;
+    private Button hInfiniteModeButton;
+    private Button verdeModeButton;
     private ImageView continueImageView;
     private ImageView pauseImageView;
     private ImageView exitButton;
@@ -30,6 +33,7 @@ public class AutomaticControllActivity extends AppCompatActivity {
     private ProgressBar batteryProgressBar;
     private ProgressBar upsProgressBar;
     private RelativeLayout automaticSwitchRelativeLayout;
+    private RelativeLayout autoModesRelativeLayout;
     private boolean automaticButtonState;
 
     @Override
@@ -58,6 +62,10 @@ public class AutomaticControllActivity extends AppCompatActivity {
         exitButton = findViewById(R.id.exit_button);
         batteryProgressBar = findViewById(R.id.battery_progressbar);
         upsProgressBar = findViewById(R.id.ups_progressbar);
+        autoModesRelativeLayout = findViewById(R.id.auto_modes_relativelayout);
+        stanleyModeButton = findViewById(R.id.stanley_mode_button);
+        hInfiniteModeButton = findViewById(R.id.h_infinite_mode_button);
+        verdeModeButton = findViewById(R.id.verde_mode_button);
     }
 
     private void setItemsDesign(){
@@ -146,16 +154,43 @@ public class AutomaticControllActivity extends AppCompatActivity {
                 returnToHomeActivity();
             }
         });
+
+        stanleyModeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                userClickStanleyModeButton();
+            }
+        });
+
+        hInfiniteModeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                userClickHInfiniteModeButton();
+            }
+        });
+
+        verdeModeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                userClickVerdeModeButton();
+            }
+        });
     }
 
     private void userClickAutoButton(){
         if (!automaticButtonState) {
             automaticButton.setBackgroundColor(Color.RED);
             automaticSwitchRelativeLayout.setVisibility(View.VISIBLE);
+            userClickBrakeAutoButton();
+            userClickSteeringAutoButton();
+            userClickThrotitleAutoButton();
+            setInitialDesignForModeButtons();
+            autoModesRelativeLayout.setVisibility(View.GONE);
             automaticButtonState = true;
         } else {
             automaticButton.setBackgroundColor(Color.BLUE);
             automaticSwitchRelativeLayout.setVisibility(View.GONE);
+            autoModesRelativeLayout.setVisibility(View.VISIBLE);
             setInitialDesignForButtons();
             automaticButtonState = false;
         }
@@ -198,6 +233,24 @@ public class AutomaticControllActivity extends AppCompatActivity {
         pauseImageView.setColorFilter(Color.BLUE);
     }
 
+    private void userClickStanleyModeButton() {
+        verdeModeButton.setBackgroundColor(getResources().getColor(R.color.grey_light));
+        hInfiniteModeButton.setBackgroundColor(getResources().getColor(R.color.grey_light));
+        stanleyModeButton.setBackgroundColor(getResources().getColor(R.color.green));
+    }
+
+    private void userClickHInfiniteModeButton() {
+        verdeModeButton.setBackgroundColor(getResources().getColor(R.color.grey_light));
+        hInfiniteModeButton.setBackgroundColor(getResources().getColor(R.color.green));
+        stanleyModeButton.setBackgroundColor(getResources().getColor(R.color.grey_light));
+    }
+
+    private void userClickVerdeModeButton() {
+        verdeModeButton.setBackgroundColor(getResources().getColor(R.color.green));
+        hInfiniteModeButton.setBackgroundColor(getResources().getColor(R.color.grey_light));
+        stanleyModeButton.setBackgroundColor(getResources().getColor(R.color.grey_light));
+    }
+
     private void userClickPauseButton() {
         pauseImageView.setBackgroundColor(Color.BLUE);
         pauseImageView.setColorFilter(Color.WHITE);
@@ -213,6 +266,12 @@ public class AutomaticControllActivity extends AppCompatActivity {
         brakeAutoButton.setBackgroundColor(getResources().getColor(R.color.grey_light));
         brakeManualButton.setBackgroundColor(getResources().getColor(R.color.grey_light));
         userClickPauseButton();
+    }
+
+    private void setInitialDesignForModeButtons(){
+        verdeModeButton.setBackgroundColor(getResources().getColor(R.color.grey_light));
+        hInfiniteModeButton.setBackgroundColor(getResources().getColor(R.color.grey_light));
+        stanleyModeButton.setBackgroundColor(getResources().getColor(R.color.grey_light));
     }
 
     private void returnToHomeActivity() {

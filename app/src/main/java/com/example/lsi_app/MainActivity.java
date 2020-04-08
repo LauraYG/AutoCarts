@@ -40,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void navigateToManualActivity(){
-        Intent intent = new Intent (MainActivity.this, ManualControllActivity.class);
+        Intent intent = new Intent (MainActivity.this, DemosSelectorActivity.class);
         startActivity(intent);
         finish();
     }
