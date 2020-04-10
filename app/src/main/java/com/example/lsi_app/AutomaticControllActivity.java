@@ -28,6 +28,7 @@ public class AutomaticControllActivity extends AppCompatActivity {
     private ImageView continueImageView;
     private ImageView pauseImageView;
     private ImageView exitButton;
+    private ImageView emergencyButton;
     private Drawable batteryProgressBarStyleDrawable;
     private Drawable upsProgressBarStyleDrawable;
     private ProgressBar batteryProgressBar;
@@ -66,6 +67,7 @@ public class AutomaticControllActivity extends AppCompatActivity {
         stanleyModeButton = findViewById(R.id.stanley_mode_button);
         hInfiniteModeButton = findViewById(R.id.h_infinite_mode_button);
         verdeModeButton = findViewById(R.id.verde_mode_button);
+        emergencyButton = findViewById(R.id.emergency_button);
     }
 
     private void setItemsDesign(){

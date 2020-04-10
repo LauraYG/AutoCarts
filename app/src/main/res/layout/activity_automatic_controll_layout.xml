@@ -351,6 +351,16 @@
     </RelativeLayout>
 
     <ImageView
+        android:id="@+id/emergency_button"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_above="@+id/exit_button"
+        android:src="@mipmap/panic"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="10dp">
+    </ImageView>
+
+    <ImageView
         android:id="@+id/exit_button"
         android:layout_width="50dp"
         android:layout_height="50dp"
