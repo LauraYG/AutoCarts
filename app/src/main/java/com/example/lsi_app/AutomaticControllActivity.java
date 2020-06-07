@@ -11,9 +11,13 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 
-import androidx.appcompat.app.AppCompatActivity;
+import org.ros.android.RosActivity;
+import org.ros.node.NodeConfiguration;
+import org.ros.node.NodeMainExecutor;
 
-public class AutomaticControllActivity extends AppCompatActivity {
+import java.net.URI;
+
+public class AutomaticControllActivity extends RosActivity {
 
     private Button automaticButton;
     private Button throtitleAutoButton;
@@ -36,6 +40,9 @@ public class AutomaticControllActivity extends AppCompatActivity {
     private RelativeLayout automaticSwitchRelativeLayout;
     private RelativeLayout autoModesRelativeLayout;
     private boolean automaticButtonState;
+    private String xx, yy;
+    private ListenerTalker listenerTalker = new ListenerTalker(this);
+    private NodeMainExecutor nodeMainExecutor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +54,18 @@ public class AutomaticControllActivity extends AppCompatActivity {
         findViews();
         setItemsDesign();
         onClickListenersOfButtons();
+    }
+
+    public AutomaticControllActivity () {
+        super("AutomaticControll Activity", "AutomaticControll Activity", URI.create("http://laurayg-VirtualBox:11311/"));
+    }
+
+    @Override
+    protected void init(NodeMainExecutor nodeMainExecutor) {
+        NodeConfiguration nodeConfiguration = NodeConfiguration.newPublic(getRosHostname(), getMasterUri());
+
+        nodeConfiguration.setNodeName("AutomaticControllNode");
+        nodeMainExecutor.execute(listenerTalker, nodeConfiguration);
     }
 
     private void findViews(){
@@ -280,5 +299,19 @@ public class AutomaticControllActivity extends AppCompatActivity {
         Intent intent = new Intent (AutomaticControllActivity.this, MainActivity.class);
         startActivity(intent);
         finish();
+    }
+
+    public void updateGPSCoordinates(final double x, final double y) {
+        /*this.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                /*xx=String.format("%.2f", x);
+                yy=String.format("%.2f", y);
+            }
+        });*/
+    }
+
+    public void shutDownThisActivity() {
+        //Todo call ListenerTalker
     }
 }

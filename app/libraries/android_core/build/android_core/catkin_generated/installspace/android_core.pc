@@ -1,0 +1,8 @@
+prefix=/home/laurayg/android_core/install
+
+Name: android_core
+Description: Description of android_core
+Version: 0.4.0
+Cflags: 
+Libs: -L${prefix}/lib 
+Requires: 
