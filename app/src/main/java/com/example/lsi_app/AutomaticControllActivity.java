@@ -15,8 +15,6 @@ import org.ros.android.RosActivity;
 import org.ros.node.NodeConfiguration;
 import org.ros.node.NodeMainExecutor;
 
-import java.net.URI;
-
 public class AutomaticControllActivity extends RosActivity {
 
     private Button automaticButton;
@@ -41,7 +39,6 @@ public class AutomaticControllActivity extends RosActivity {
     private RelativeLayout autoModesRelativeLayout;
     private boolean automaticButtonState;
     private String xx, yy;
-    private ListenerTalker listenerTalker = new ListenerTalker(this);
     private NodeMainExecutor nodeMainExecutor;
 
     @Override
@@ -57,15 +54,20 @@ public class AutomaticControllActivity extends RosActivity {
     }
 
     public AutomaticControllActivity () {
-        super("AutomaticControll Activity", "AutomaticControll Activity", URI.create("http://laurayg-VirtualBox:11311/"));
+        super("AutomaticControll Activity", "AutomaticControll Activity");
     }
 
     @Override
     protected void init(NodeMainExecutor nodeMainExecutor) {
         NodeConfiguration nodeConfiguration = NodeConfiguration.newPublic(getRosHostname(), getMasterUri());
 
-        nodeConfiguration.setNodeName("AutomaticControllNode");
-        nodeMainExecutor.execute(listenerTalker, nodeConfiguration);
+        Listener listener = new Listener(this);
+        nodeConfiguration.setNodeName("listener");
+        nodeMainExecutor.execute(listener, nodeConfiguration);
+
+        Talker talker = new Talker(this);
+        nodeConfiguration.setNodeName("talker");
+        nodeMainExecutor.execute(talker, nodeConfiguration);
     }
 
     private void findViews(){
