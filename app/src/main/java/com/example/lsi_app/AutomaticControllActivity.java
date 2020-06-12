@@ -11,11 +11,11 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 
-import org.ros.android.RosActivity;
+import org.ros.android.AppCompatRosActivity;
 import org.ros.node.NodeConfiguration;
 import org.ros.node.NodeMainExecutor;
 
-public class AutomaticControllActivity extends RosActivity {
+public class AutomaticControllActivity extends AppCompatRosActivity {
 
     private Button automaticButton;
     private Button throtitleAutoButton;
@@ -60,10 +60,6 @@ public class AutomaticControllActivity extends RosActivity {
     @Override
     protected void init(NodeMainExecutor nodeMainExecutor) {
         NodeConfiguration nodeConfiguration = NodeConfiguration.newPublic(getRosHostname(), getMasterUri());
-
-        Listener listener = new Listener(this);
-        nodeConfiguration.setNodeName("listener");
-        nodeMainExecutor.execute(listener, nodeConfiguration);
 
         Talker talker = new Talker(this);
         nodeConfiguration.setNodeName("talker");
