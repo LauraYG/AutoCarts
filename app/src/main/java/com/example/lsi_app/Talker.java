@@ -2,6 +2,7 @@ package com.example.lsi_app;
 
 import android.widget.Toast;
 
+import org.ros.concurrent.CancellableLoop;
 import org.ros.message.MessageListener;
 import org.ros.namespace.GraphName;
 import org.ros.node.AbstractNodeMain;
@@ -24,7 +25,7 @@ public class Talker extends AbstractNodeMain {
 
     @Override
     public GraphName getDefaultNodeName() {
-        return GraphName.of("rosjava/listenertalker");
+        return GraphName.of("rosjava/talker");
     }
 
 
@@ -45,7 +46,7 @@ public class Talker extends AbstractNodeMain {
 
     @Override
     public void onStart(final ConnectedNode connectedNode) {
-        /*publisherStillAlive = connectedNode.newPublisher("chatter", String._TYPE);
+        publisherStillAlive = connectedNode.newPublisher("chatter", String._TYPE);
 
         connectedNode.executeCancellableLoop(new CancellableLoop() {
             @Override
@@ -53,24 +54,25 @@ public class Talker extends AbstractNodeMain {
                 String message = publisherStillAlive.newMessage();
                 message.setData("Hola holita");
                 publisherStillAlive.publish(message);
-                Thread.sleep(200L);
+                Thread.sleep(2000L);
             }
-        });*/
+        });
 
-        automaticControllActivity.runOnUiThread(new Runnable() {
+
+        /*pruebaSubscriber2 = connectedNode.newSubscriber("chat", String._TYPE);
+        pruebaSubscriber2.addMessageListener(new MessageListener<String>() {
             @Override
-            public void run() {
-                pruebaSubscriber2 = connectedNode.newSubscriber("chatter", String._TYPE);
-                pruebaSubscriber2.addMessageListener(new MessageListener<String>() {
+            public void onNewMessage(String string) {
+                int x = 0;
+                automaticControllActivity.runOnUiThread(new Runnable() {
                     @Override
-                    public void onNewMessage(String string) {
-                        int x = 0;
-                        Toast llega = Toast.makeText(automaticControllActivity.getBaseContext(), "Llega llegaaa!",Toast.LENGTH_SHORT);
+                    public void run() {
+                        Toast llega = Toast.makeText(automaticControllActivity.getBaseContext(), "llega",Toast.LENGTH_SHORT);
                         llega.show();
                     }
                 });
             }
-        });
+        });*/
 
 
         //publisherSOS = connectedNode.newPublisher("car/SOS/", Bool._TYPE);

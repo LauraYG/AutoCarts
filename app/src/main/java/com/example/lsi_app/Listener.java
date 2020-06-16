@@ -1,9 +1,14 @@
 package com.example.lsi_app;
 
+import android.widget.Toast;
+
+import org.ros.message.MessageListener;
 import org.ros.namespace.GraphName;
 import org.ros.node.AbstractNodeMain;
 import org.ros.node.ConnectedNode;
 import org.ros.node.topic.Subscriber;
+
+import std_msgs.String;
 
 public class Listener extends AbstractNodeMain {
 
@@ -11,6 +16,7 @@ public class Listener extends AbstractNodeMain {
     private JoystickActivity joystickActivity;
     private VisualizationActivity visualizationActivity;
     private ConnectedNode connectedNode;
+    private Subscriber<String> pruebaSubscriber2;
     private Subscriber<std_msgs.String> pruebaSubscriber;
 
 
@@ -37,7 +43,20 @@ public class Listener extends AbstractNodeMain {
 
     @Override
     public void onStart(ConnectedNode connectedNode) {
-
+        pruebaSubscriber2 = connectedNode.newSubscriber("chat", String._TYPE);
+        pruebaSubscriber2.addMessageListener(new MessageListener<String>() {
+            @Override
+            public void onNewMessage(String string) {
+                int x = 0;
+                automaticControllActivity.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast llega = Toast.makeText(automaticControllActivity.getBaseContext(), "llega",Toast.LENGTH_SHORT);
+                        llega.show();
+                    }
+                });
+            }
+        });
     }
 
     public void closeAutomaticControllActivity() {

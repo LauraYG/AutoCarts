@@ -60,10 +60,14 @@ public class AutomaticControllActivity extends AppCompatRosActivity {
     @Override
     protected void init(NodeMainExecutor nodeMainExecutor) {
         NodeConfiguration nodeConfiguration = NodeConfiguration.newPublic(getRosHostname(), getMasterUri());
+        Listener listener = new Listener(this);
+        nodeConfiguration.setNodeName("listener");
+        nodeMainExecutor.execute(listener, nodeConfiguration);
 
+        NodeConfiguration nodeConfiguration2 = NodeConfiguration.newPublic(getRosHostname(), getMasterUri());
         Talker talker = new Talker(this);
-        nodeConfiguration.setNodeName("talker");
-        nodeMainExecutor.execute(talker, nodeConfiguration);
+        nodeConfiguration2.setNodeName("talker");
+        nodeMainExecutor.execute(talker, nodeConfiguration2);
     }
 
     private void findViews(){
