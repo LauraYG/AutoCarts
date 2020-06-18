@@ -8,6 +8,9 @@ import org.ros.node.AbstractNodeMain;
 import org.ros.node.ConnectedNode;
 import org.ros.node.topic.Subscriber;
 
+import java.util.Date;
+import java.util.concurrent.TimeUnit;
+
 import std_msgs.String;
 
 public class Listener extends AbstractNodeMain {
@@ -18,7 +21,7 @@ public class Listener extends AbstractNodeMain {
     private ConnectedNode connectedNode;
     private Subscriber<String> pruebaSubscriber2;
     private Subscriber<std_msgs.String> pruebaSubscriber;
-
+    private Date initialDate = new Date();
 
     @Override
     public GraphName getDefaultNodeName() {
@@ -43,16 +46,36 @@ public class Listener extends AbstractNodeMain {
 
     @Override
     public void onStart(ConnectedNode connectedNode) {
-        pruebaSubscriber2 = connectedNode.newSubscriber("chat", String._TYPE);
+        pruebaSubscriber2 = connectedNode.newSubscriber("stillAlive", String._TYPE);
         pruebaSubscriber2.addMessageListener(new MessageListener<String>() {
             @Override
             public void onNewMessage(String string) {
-                int x = 0;
                 automaticControllActivity.runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
                         Toast llega = Toast.makeText(automaticControllActivity.getBaseContext(), "llega",Toast.LENGTH_SHORT);
                         llega.show();
+                    }
+                });
+                automaticControllActivity.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Date newDate = new Date();
+                        long diffInMs = newDate.getTime() - initialDate.getTime();
+                        if(diffInMs > 1000) {
+                            automaticControllActivity.hideGreenStillAlive();
+                            automaticControllActivity.hideOrangeStillAlive();
+                            automaticControllActivity.showRedStillAlive();
+                        } else if (diffInMs > 200 && diffInMs < 1000) {
+                            automaticControllActivity.hideGreenStillAlive();
+                            automaticControllActivity.hideRedStillAlive();
+                            automaticControllActivity.showOrangeStillAlive();
+                        } else {
+                            automaticControllActivity.hideRedStillAlive();
+                            automaticControllActivity.hideOrangeStillAlive();
+                            automaticControllActivity.showGreenStillAlive();
+                        }
+                        initialDate = newDate;
                     }
                 });
             }

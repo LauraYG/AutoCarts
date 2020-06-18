@@ -16,7 +16,7 @@ import std_msgs.String;
 public class Talker extends AbstractNodeMain {
 
     private AutomaticControllActivity automaticControllActivity;
-    private Publisher<std_msgs.String> publisherStillAlive;
+    private Subscriber<String> publisherStillAlive;
     private Subscriber<String> pruebaSubscriber2;
     private Publisher<Bool> publisherSOS;
     private JoystickActivity joystickActivity;
@@ -46,7 +46,20 @@ public class Talker extends AbstractNodeMain {
 
     @Override
     public void onStart(final ConnectedNode connectedNode) {
-        publisherStillAlive = connectedNode.newPublisher("chatter", String._TYPE);
+        publisherStillAlive = connectedNode.newSubscriber("stillAlive", String._TYPE);
+        publisherStillAlive.addMessageListener(new MessageListener<String>() {
+            @Override
+            public void onNewMessage(String string) {
+                /*automaticControllActivity.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast llega = Toast.makeText(automaticControllActivity.getBaseContext(), "llega",Toast.LENGTH_SHORT);
+                        llega.show();
+                    }
+                });*/
+            }
+        });
+        /*publisherStillAlive = connectedNode.newPublisher("chatter", "std_msgs/String");
 
         connectedNode.executeCancellableLoop(new CancellableLoop() {
             @Override
@@ -59,7 +72,7 @@ public class Talker extends AbstractNodeMain {
         });
 
 
-        /*pruebaSubscriber2 = connectedNode.newSubscriber("chat", String._TYPE);
+        pruebaSubscriber2 = connectedNode.newSubscriber("chat", String._TYPE);
         pruebaSubscriber2.addMessageListener(new MessageListener<String>() {
             @Override
             public void onNewMessage(String string) {

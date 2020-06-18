@@ -351,8 +351,41 @@
     </RelativeLayout>
 
     <ImageView
+        android:id="@+id/stillAlive_green_imageview"
+        android:layout_width="35dp"
+        android:layout_height="40dp"
+        android:src="@mipmap/green_user"
+        android:layout_above="@id/emergency_button"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="18dp"
+        android:visibility="gone">
+    </ImageView>
+
+    <ImageView
+        android:id="@+id/stillAlive_orange_imageview"
+        android:layout_width="35dp"
+        android:layout_height="40dp"
+        android:src="@mipmap/orange_user"
+        android:layout_above="@id/emergency_button"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="18dp"
+        android:visibility="gone">
+    </ImageView>
+
+    <ImageView
+        android:id="@+id/stillAlive_red_imageview"
+        android:layout_width="35dp"
+        android:layout_height="40dp"
+        android:src="@mipmap/red_user"
+        android:layout_above="@id/emergency_button"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="18dp"
+        android:visibility="gone">
+    </ImageView>
+
+    <ImageView
         android:id="@+id/emergency_button"
-        android:layout_width="60dp"
+        android:layout_width="50dp"
         android:layout_height="60dp"
         android:layout_above="@+id/exit_button"
         android:src="@mipmap/panic"

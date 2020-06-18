@@ -31,6 +31,9 @@ public class AutomaticControllActivity extends AppCompatRosActivity {
     private ImageView pauseImageView;
     private ImageView exitButton;
     private ImageView emergencyButton;
+    private ImageView stillAliveGreenImageView;
+    private ImageView stillAliveOrangeImageView;
+    private ImageView stillAliveRedImageView;
     private Drawable batteryProgressBarStyleDrawable;
     private Drawable upsProgressBarStyleDrawable;
     private ProgressBar batteryProgressBar;
@@ -38,8 +41,6 @@ public class AutomaticControllActivity extends AppCompatRosActivity {
     private RelativeLayout automaticSwitchRelativeLayout;
     private RelativeLayout autoModesRelativeLayout;
     private boolean automaticButtonState;
-    private String xx, yy;
-    private NodeMainExecutor nodeMainExecutor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,6 +90,9 @@ public class AutomaticControllActivity extends AppCompatRosActivity {
         hInfiniteModeButton = findViewById(R.id.h_infinite_mode_button);
         verdeModeButton = findViewById(R.id.verde_mode_button);
         emergencyButton = findViewById(R.id.emergency_button);
+        stillAliveGreenImageView = findViewById(R.id.stillAlive_green_imageview);
+        stillAliveOrangeImageView = findViewById(R.id.stillAlive_orange_imageview);
+        stillAliveRedImageView = findViewById(R.id.stillAlive_red_imageview);
     }
 
     private void setItemsDesign(){
@@ -303,17 +307,27 @@ public class AutomaticControllActivity extends AppCompatRosActivity {
         finish();
     }
 
-    public void updateGPSCoordinates(final double x, final double y) {
-        /*this.runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                /*xx=String.format("%.2f", x);
-                yy=String.format("%.2f", y);
-            }
-        });*/
+    public void showGreenStillAlive() {
+        stillAliveGreenImageView.setVisibility(View.VISIBLE);
     }
 
-    public void shutDownThisActivity() {
-        //Todo call ListenerTalker
+    public void hideGreenStillAlive() {
+        stillAliveGreenImageView.setVisibility(View.GONE);
+    }
+
+    public void showOrangeStillAlive() {
+        stillAliveOrangeImageView.setVisibility(View.VISIBLE);
+    }
+
+    public void hideOrangeStillAlive() {
+        stillAliveOrangeImageView.setVisibility(View.GONE);
+    }
+
+    public void showRedStillAlive() {
+        stillAliveRedImageView.setVisibility(View.VISIBLE);
+    }
+
+    public void hideRedStillAlive() {
+        stillAliveRedImageView.setVisibility(View.GONE);
     }
 }
