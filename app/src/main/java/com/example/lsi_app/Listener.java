@@ -9,8 +9,8 @@ import org.ros.node.ConnectedNode;
 import org.ros.node.topic.Subscriber;
 
 import java.util.Date;
-import java.util.concurrent.TimeUnit;
 
+import std_msgs.Float32;
 import std_msgs.String;
 
 public class Listener extends AbstractNodeMain {
@@ -19,8 +19,9 @@ public class Listener extends AbstractNodeMain {
     private JoystickActivity joystickActivity;
     private VisualizationActivity visualizationActivity;
     private ConnectedNode connectedNode;
-    private Subscriber<String> pruebaSubscriber2;
-    private Subscriber<std_msgs.String> pruebaSubscriber;
+    private Subscriber<String> suscriberStillAlive;
+    private Subscriber<Float32> speedSubscriber;
+    private Subscriber<Float32> steeringSubscriber;
     private Date initialDate = new Date();
 
     @Override
@@ -46,17 +47,11 @@ public class Listener extends AbstractNodeMain {
 
     @Override
     public void onStart(ConnectedNode connectedNode) {
-        pruebaSubscriber2 = connectedNode.newSubscriber("stillAlive", String._TYPE);
-        pruebaSubscriber2.addMessageListener(new MessageListener<String>() {
+        this.connectedNode = connectedNode;
+        suscriberStillAlive = connectedNode.newSubscriber("stillAlive", String._TYPE);
+        suscriberStillAlive.addMessageListener(new MessageListener<String>() {
             @Override
             public void onNewMessage(String string) {
-                automaticControllActivity.runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        Toast llega = Toast.makeText(automaticControllActivity.getBaseContext(), "llega",Toast.LENGTH_SHORT);
-                        llega.show();
-                    }
-                });
                 automaticControllActivity.runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
@@ -76,6 +71,38 @@ public class Listener extends AbstractNodeMain {
                             automaticControllActivity.showGreenStillAlive();
                         }
                         initialDate = newDate;
+                    }
+                });
+            }
+        });
+
+        if(automaticControllActivity != null) {
+            createListenersOfAutomaticControllActivity();
+        }
+    }
+
+    private void createListenersOfAutomaticControllActivity() {
+        speedSubscriber = connectedNode.newSubscriber("speed", Float32._TYPE);
+        speedSubscriber.addMessageListener(new MessageListener<Float32>() {
+            @Override
+            public void onNewMessage(final Float32 float32) {
+                automaticControllActivity.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        automaticControllActivity.setGeneralSpeedText(float32.getData());
+                    }
+                });
+            }
+        });
+
+        steeringSubscriber = connectedNode.newSubscriber("steering_angle", Float32._TYPE);
+        steeringSubscriber.addMessageListener(new MessageListener<Float32>() {
+            @Override
+            public void onNewMessage(final Float32 float32) {
+                automaticControllActivity.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        automaticControllActivity.setGeneralSteeringText(float32.getData());
                     }
                 });
             }

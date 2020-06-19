@@ -46,6 +46,7 @@
             </TextView>
 
             <TextView
+                android:id="@+id/steering_number_text_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
@@ -72,13 +73,14 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="2dp"
                 android:gravity="center_horizontal"
-                android:text="Velocidad (Km/h)"
+                android:text="Velocidad (m/s)"
                 android:textColor="@color/black"
                 android:textStyle="bold"
                 android:textSize="20dp">
             </TextView>
 
             <TextView
+                android:id="@+id/speed_number_textView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"

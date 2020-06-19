@@ -10,10 +10,13 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import org.ros.android.AppCompatRosActivity;
 import org.ros.node.NodeConfiguration;
 import org.ros.node.NodeMainExecutor;
+
+import std_msgs.Float32;
 
 public class AutomaticControllActivity extends AppCompatRosActivity {
 
@@ -27,6 +30,8 @@ public class AutomaticControllActivity extends AppCompatRosActivity {
     private Button stanleyModeButton;
     private Button hInfiniteModeButton;
     private Button verdeModeButton;
+    private TextView generalSpeedTextView;
+    private TextView generalSteeringTextView;
     private ImageView continueImageView;
     private ImageView pauseImageView;
     private ImageView exitButton;
@@ -93,6 +98,8 @@ public class AutomaticControllActivity extends AppCompatRosActivity {
         stillAliveGreenImageView = findViewById(R.id.stillAlive_green_imageview);
         stillAliveOrangeImageView = findViewById(R.id.stillAlive_orange_imageview);
         stillAliveRedImageView = findViewById(R.id.stillAlive_red_imageview);
+        generalSpeedTextView = findViewById(R.id.speed_number_textView);
+        generalSteeringTextView = findViewById(R.id.steering_number_text_view);
     }
 
     private void setItemsDesign(){
@@ -329,5 +336,13 @@ public class AutomaticControllActivity extends AppCompatRosActivity {
 
     public void hideRedStillAlive() {
         stillAliveRedImageView.setVisibility(View.GONE);
+    }
+
+    public void setGeneralSpeedText(float float32) {
+        generalSpeedTextView.setText(String.valueOf(float32));
+    }
+
+    public void setGeneralSteeringText(float float32) {
+        generalSteeringTextView.setText(String.valueOf(float32));
     }
 }

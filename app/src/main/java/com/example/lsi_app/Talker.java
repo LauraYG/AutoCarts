@@ -11,17 +11,18 @@ import org.ros.node.topic.Publisher;
 import org.ros.node.topic.Subscriber;
 
 import std_msgs.Bool;
+import std_msgs.Float32;
 import std_msgs.String;
 
 public class Talker extends AbstractNodeMain {
 
     private AutomaticControllActivity automaticControllActivity;
     private Subscriber<String> publisherStillAlive;
-    private Subscriber<String> pruebaSubscriber2;
     private Publisher<Bool> publisherSOS;
     private JoystickActivity joystickActivity;
     private VisualizationActivity visualizationActivity;
     private ConnectedNode connectedNode;
+
 
     @Override
     public GraphName getDefaultNodeName() {
