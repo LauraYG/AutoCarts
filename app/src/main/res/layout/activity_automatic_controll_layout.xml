@@ -30,7 +30,8 @@
             android:layout_toEndOf="@id/automatic_controll_button"
             android:layout_marginLeft="10dp"
             android:layout_marginTop="15dp"
-            android:background="@drawable/bkg_rectangle_with_border">
+            android:background="@drawable/bkg_rectangle_with_border"
+            android:layout_toRightOf="@id/automatic_controll_button">
 
             <TextView
                 android:id="@+id/direction_title"
@@ -65,7 +66,8 @@
             android:layout_toEndOf="@id/direction_relativelayout"
             android:layout_marginLeft="10dp"
             android:layout_marginTop="15dp"
-            android:background="@drawable/bkg_rectangle_with_border">
+            android:background="@drawable/bkg_rectangle_with_border"
+            android:layout_toRightOf="@id/direction_relativelayout">
 
             <TextView
                 android:id="@+id/speed_title"
@@ -97,7 +99,8 @@
             android:layout_height="wrap_content"
             android:layout_toEndOf="@id/speed_relativelayout"
             android:layout_marginLeft="10dp"
-            android:layout_marginTop="30dp">
+            android:layout_marginTop="30dp"
+            android:layout_toRightOf="@id/speed_relativelayout">
 
             <TextView
                 android:id="@+id/battery_textview"
@@ -144,7 +147,8 @@
                 android:layout_toEndOf="@id/ups_textview"
                 android:layout_marginTop="25dp"
                 android:layout_marginLeft="18dp"
-                style="?android:attr/progressBarStyleHorizontal">
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_toRightOf="@id/ups_textview">
             </ProgressBar>
 
         </RelativeLayout>
@@ -195,7 +199,8 @@
                 android:textSize="20dp"
                 android:layout_below="@id/throtitle_textview"
                 android:layout_toEndOf="@id/auto_throtitle_button"
-                android:background="@color/grey_light">
+                android:background="@color/grey_light"
+                android:layout_toRightOf="@id/auto_throtitle_button">
             </Button>
         </RelativeLayout>
 
@@ -203,7 +208,8 @@
             android:id="@+id/steering_relativelayout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toEndOf="@id/throtitle_relativelayout">
+            android:layout_toEndOf="@id/throtitle_relativelayout"
+            android:layout_toRightOf="@id/throtitle_relativelayout">
 
             <TextView
                 android:id="@+id/steering_textview"
@@ -236,7 +242,8 @@
                 android:textSize="20dp"
                 android:layout_below="@id/steering_textview"
                 android:layout_toEndOf="@id/auto_steering_button"
-                android:background="@color/grey_light">
+                android:background="@color/grey_light"
+                android:layout_toRightOf="@id/auto_steering_button">
             </Button>
         </RelativeLayout>
 
@@ -244,7 +251,8 @@
             android:id="@+id/brake_relativelayout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toEndOf="@id/steering_relativelayout">
+            android:layout_toEndOf="@id/steering_relativelayout"
+            android:layout_toRightOf="@id/steering_relativelayout">
 
             <TextView
                 android:id="@+id/brake_textview"
@@ -277,9 +285,52 @@
                 android:textSize="20dp"
                 android:layout_below="@id/brake_textview"
                 android:layout_toEndOf="@id/auto_brake_button"
-                android:background="@color/grey_light">
+                android:background="@color/grey_light"
+                android:layout_toRightOf="@id/auto_brake_button">
             </Button>
         </RelativeLayout>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/automatic_switch_relativelayout"
+        android:gravity="center_horizontal"
+        android:layout_centerHorizontal="true">
+
+        <io.github.controlwear.virtual.joystick.android.JoystickView
+            xmlns:custom="http://schemas.android.com/apk/res-auto"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            custom:JV_buttonColor="#FF6E40"
+            custom:JV_buttonSizeRatio="17%"
+            custom:JV_borderColor="#00796B"
+            custom:JV_backgroundColor="#009688"
+            custom:JV_borderWidth="4dp"
+            custom:JV_fixedCenter="false"
+            custom:JV_buttonDirection="vertical"
+            android:layout_centerHorizontal="true"
+            android:id="@+id/virtual_joystick_vertical_view"
+            android:visibility="gone">
+        </io.github.controlwear.virtual.joystick.android.JoystickView>
+
+        <io.github.controlwear.virtual.joystick.android.JoystickView
+            xmlns:custom="http://schemas.android.com/apk/res-auto"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            custom:JV_buttonColor="#FF6E40"
+            custom:JV_buttonSizeRatio="17%"
+            custom:JV_borderColor="#00796B"
+            custom:JV_backgroundColor="#009688"
+            custom:JV_borderWidth="4dp"
+            custom:JV_fixedCenter="false"
+            custom:JV_buttonDirection="horizontal"
+            android:layout_centerHorizontal="true"
+            android:id="@+id/virtual_joystick_horizontal_view"
+            android:visibility="gone"
+            android:layout_toEndOf="@id/virtual_joystick_vertical_view"
+            android:layout_toRightOf="@id/virtual_joystick_vertical_view">
+        </io.github.controlwear.virtual.joystick.android.JoystickView>
     </RelativeLayout>
 
     <RelativeLayout
@@ -317,7 +368,8 @@
         android:layout_below="@id/first_automatic_relativelayout"
         android:layout_marginTop="40dp"
         android:layout_centerHorizontal="true"
-        android:gravity="center_horizontal">
+        android:gravity="center_horizontal"
+        android:layout_toRightOf="@id/play_pause_relativelayout">
 
     <Button
         android:id="@+id/stanley_mode_button"
@@ -338,7 +390,8 @@
         android:textColor="@color/black"
         android:textSize="20dp"
         android:layout_toEndOf="@id/stanley_mode_button"
-        android:background="@color/grey_light"/>
+        android:background="@color/grey_light"
+        android:layout_toRightOf="@id/stanley_mode_button" />
 
     <Button
         android:id="@+id/verde_mode_button"
@@ -349,7 +402,8 @@
         android:textColor="@color/black"
         android:textSize="20dp"
         android:background="@color/grey_light"
-        android:layout_toEndOf="@id/h_infinite_mode_button"/>
+        android:layout_toEndOf="@id/h_infinite_mode_button"
+        android:layout_toRightOf="@id/h_infinite_mode_button" />
     </RelativeLayout>
 
     <ImageView
@@ -360,7 +414,9 @@
         android:layout_above="@id/emergency_button"
         android:layout_alignParentEnd="true"
         android:layout_marginEnd="18dp"
-        android:visibility="gone">
+        android:visibility="gone"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="18dp">
     </ImageView>
 
     <ImageView
@@ -371,7 +427,9 @@
         android:layout_above="@id/emergency_button"
         android:layout_alignParentEnd="true"
         android:layout_marginEnd="18dp"
-        android:visibility="gone">
+        android:visibility="gone"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="18dp">
     </ImageView>
 
     <ImageView
@@ -382,7 +440,9 @@
         android:layout_above="@id/emergency_button"
         android:layout_alignParentEnd="true"
         android:layout_marginEnd="18dp"
-        android:visibility="gone">
+        android:visibility="gone"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="18dp">
     </ImageView>
 
     <ImageView
@@ -392,7 +452,9 @@
         android:layout_above="@+id/exit_button"
         android:src="@mipmap/panic"
         android:layout_alignParentEnd="true"
-        android:layout_marginEnd="10dp">
+        android:layout_marginEnd="10dp"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="10dp">
     </ImageView>
 
     <ImageView
@@ -403,6 +465,8 @@
         android:layout_alignParentEnd="true"
         android:src="@mipmap/exit"
         android:layout_marginEnd="10dp"
-        android:layout_marginBottom="10dp">
+        android:layout_marginBottom="10dp"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="10dp">
     </ImageView>
 </RelativeLayout>

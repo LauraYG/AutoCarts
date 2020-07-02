@@ -48,6 +48,7 @@ public class Listener extends AbstractNodeMain {
     @Override
     public void onStart(ConnectedNode connectedNode) {
         this.connectedNode = connectedNode;
+        //TODO change to header type
         suscriberStillAlive = connectedNode.newSubscriber("stillAlive", String._TYPE);
         suscriberStillAlive.addMessageListener(new MessageListener<String>() {
             @Override
@@ -57,7 +58,7 @@ public class Listener extends AbstractNodeMain {
                     public void run() {
                         Date newDate = new Date();
                         long diffInMs = newDate.getTime() - initialDate.getTime();
-                        if(diffInMs > 1000) {
+                        if(diffInMs > 1001) {
                             automaticControllActivity.hideGreenStillAlive();
                             automaticControllActivity.hideOrangeStillAlive();
                             automaticControllActivity.showRedStillAlive();
@@ -107,6 +108,9 @@ public class Listener extends AbstractNodeMain {
                 });
             }
         });
+
+        //TODO battery subscriber
+        //TODO UPS subscriber
     }
 
     public void closeAutomaticControllActivity() {
