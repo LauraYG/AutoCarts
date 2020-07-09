@@ -94,7 +94,7 @@
             </TextView>
         </RelativeLayout>
 
-        <RelativeLayout
+        <!--<RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toEndOf="@id/speed_relativelayout"
@@ -151,7 +151,7 @@
                 android:layout_toRightOf="@id/ups_textview">
             </ProgressBar>
 
-        </RelativeLayout>
+        </RelativeLayout> -->
     </RelativeLayout>
 
     <RelativeLayout
@@ -205,54 +205,11 @@
         </RelativeLayout>
 
         <RelativeLayout
-            android:id="@+id/steering_relativelayout"
+            android:id="@+id/brake_relativelayout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toEndOf="@id/throtitle_relativelayout"
             android:layout_toRightOf="@id/throtitle_relativelayout">
-
-            <TextView
-                android:id="@+id/steering_textview"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:text="Dirección"
-                android:textSize="20dp"
-                android:textColor="@color/black">
-            </TextView>
-
-            <Button
-                android:id="@+id/auto_steering_button"
-                android:layout_width="110dp"
-                android:layout_height="50dp"
-                android:text="Auto"
-                android:layout_marginLeft="10dp"
-                android:textColor="@color/black"
-                android:textSize="20dp"
-                android:layout_below="@id/steering_textview"
-                android:background="@color/grey_light">
-            </Button>
-            <Button
-                android:id="@+id/manual_steering_button"
-                android:layout_width="110dp"
-                android:layout_height="50dp"
-                android:text="Manual"
-                android:layout_marginLeft="5dp"
-                android:textColor="@color/black"
-                android:textSize="20dp"
-                android:layout_below="@id/steering_textview"
-                android:layout_toEndOf="@id/auto_steering_button"
-                android:background="@color/grey_light"
-                android:layout_toRightOf="@id/auto_steering_button">
-            </Button>
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:id="@+id/brake_relativelayout"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_toEndOf="@id/steering_relativelayout"
-            android:layout_toRightOf="@id/steering_relativelayout">
 
             <TextView
                 android:id="@+id/brake_textview"
@@ -289,6 +246,49 @@
                 android:layout_toRightOf="@id/auto_brake_button">
             </Button>
         </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/steering_relativelayout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toEndOf="@id/brake_relativelayout"
+            android:layout_toRightOf="@id/brake_relativelayout">
+
+            <TextView
+                android:id="@+id/steering_textview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:text="Dirección"
+                android:textSize="20dp"
+                android:textColor="@color/black">
+            </TextView>
+
+            <Button
+                android:id="@+id/auto_steering_button"
+                android:layout_width="110dp"
+                android:layout_height="50dp"
+                android:text="Auto"
+                android:layout_marginLeft="10dp"
+                android:textColor="@color/black"
+                android:textSize="20dp"
+                android:layout_below="@id/steering_textview"
+                android:background="@color/grey_light">
+            </Button>
+            <Button
+                android:id="@+id/manual_steering_button"
+                android:layout_width="110dp"
+                android:layout_height="50dp"
+                android:text="Manual"
+                android:layout_marginLeft="5dp"
+                android:textColor="@color/black"
+                android:textSize="20dp"
+                android:layout_below="@id/steering_textview"
+                android:layout_toEndOf="@id/auto_steering_button"
+                android:background="@color/grey_light"
+                android:layout_toRightOf="@id/auto_steering_button">
+            </Button>
+        </RelativeLayout>
     </RelativeLayout>
 
     <RelativeLayout
@@ -296,41 +296,44 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/automatic_switch_relativelayout"
         android:gravity="center_horizontal"
-        android:layout_centerHorizontal="true">
+        android:layout_centerHorizontal="true"
+        android:orientation="horizontal">
 
         <io.github.controlwear.virtual.joystick.android.JoystickView
             xmlns:custom="http://schemas.android.com/apk/res-auto"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            custom:JV_buttonColor="#FF6E40"
+            custom:JV_buttonColor="#3700B3"
             custom:JV_buttonSizeRatio="17%"
-            custom:JV_borderColor="#00796B"
-            custom:JV_backgroundColor="#009688"
+            custom:JV_borderColor="#3700B3"
+            custom:JV_backgroundColor="#FFFFFF"
             custom:JV_borderWidth="4dp"
             custom:JV_fixedCenter="false"
-            custom:JV_buttonDirection="vertical"
             android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
             android:id="@+id/virtual_joystick_vertical_view"
-            android:visibility="gone">
+            android:visibility="gone"
+            android:rotation="90">
         </io.github.controlwear.virtual.joystick.android.JoystickView>
 
         <io.github.controlwear.virtual.joystick.android.JoystickView
             xmlns:custom="http://schemas.android.com/apk/res-auto"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            custom:JV_buttonColor="#FF6E40"
+            custom:JV_buttonColor="#FFFFFF"
             custom:JV_buttonSizeRatio="17%"
-            custom:JV_borderColor="#00796B"
-            custom:JV_backgroundColor="#009688"
+            custom:JV_borderColor="#3700B3"
+            custom:JV_backgroundColor="#3700B3"
             custom:JV_borderWidth="4dp"
             custom:JV_fixedCenter="false"
-            custom:JV_buttonDirection="horizontal"
             android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
             android:id="@+id/virtual_joystick_horizontal_view"
             android:visibility="gone"
             android:layout_toEndOf="@id/virtual_joystick_vertical_view"
             android:layout_toRightOf="@id/virtual_joystick_vertical_view">
         </io.github.controlwear.virtual.joystick.android.JoystickView>
+
     </RelativeLayout>
 
     <RelativeLayout

@@ -14,10 +14,13 @@ import android.widget.TextView;
 
 import org.ros.android.AppCompatRosActivity;
 import io.github.controlwear.virtual.joystick.android.JoystickView;
+
 import org.ros.node.NodeConfiguration;
 import org.ros.node.NodeMainExecutor;
 
 public class AutomaticControllActivity extends AppCompatRosActivity {
+
+    private float MAX_DEFAULT_SPEED = 200;
 
     private Button automaticButton;
     private Button throtitleAutoButton;
@@ -93,8 +96,8 @@ public class AutomaticControllActivity extends AppCompatRosActivity {
         continueImageView = findViewById(R.id.continue_button);
         pauseImageView = findViewById(R.id.pause_button);
         exitButton = findViewById(R.id.exit_button);
-        batteryProgressBar = findViewById(R.id.battery_progressbar);
-        upsProgressBar = findViewById(R.id.ups_progressbar);
+        //batteryProgressBar = findViewById(R.id.battery_progressbar);
+        //upsProgressBar = findViewById(R.id.ups_progressbar);
         autoModesRelativeLayout = findViewById(R.id.auto_modes_relativelayout);
         stanleyModeButton = findViewById(R.id.stanley_mode_button);
         hInfiniteModeButton = findViewById(R.id.h_infinite_mode_button);
@@ -115,14 +118,14 @@ public class AutomaticControllActivity extends AppCompatRosActivity {
         pauseImageView.setColorFilter(Color.WHITE);
         pauseImageView.setBackgroundColor(Color.BLUE);
         exitButton.setColorFilter(Color.BLUE);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            batteryProgressBarStyleDrawable = getDrawable(R.drawable.customprogressbar);
-            upsProgressBarStyleDrawable = getDrawable(R.drawable.customprogressbar);
+        /*if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            //batteryProgressBarStyleDrawable = getDrawable(R.drawable.customprogressbar);
+            //upsProgressBarStyleDrawable = getDrawable(R.drawable.customprogressbar);
         }
         batteryProgressBar.setProgressDrawable(batteryProgressBarStyleDrawable);
         upsProgressBar.setProgressDrawable(upsProgressBarStyleDrawable);
         batteryProgressBar.setProgress(50);
-        upsProgressBar.setProgress(20);
+        upsProgressBar.setProgress(20);*/
     }
 
     private void onClickListenersOfButtons(){
@@ -192,7 +195,7 @@ public class AutomaticControllActivity extends AppCompatRosActivity {
         emergencyButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                userClickEmergencyButton();
+                userSentsVehicleMode(2);
             }
         });
 
@@ -235,6 +238,7 @@ public class AutomaticControllActivity extends AppCompatRosActivity {
             setInitialDesignForModeButtons();
             autoModesRelativeLayout.setVisibility(View.GONE);
             automaticButtonState = true;
+            userSentsVehicleMode(0);
         } else {
             automaticButton.setBackgroundColor(Color.BLUE);
             automaticSwitchRelativeLayout.setVisibility(View.GONE);
@@ -242,6 +246,10 @@ public class AutomaticControllActivity extends AppCompatRosActivity {
             virtualJoystickHorizontalView.setVisibility(View.GONE);
             virtualJoystickVerticalView.setVisibility(View.GONE);
             setInitialDesignForButtons();
+            userSentsVehicleMode(1);
+            talker.setThrotitleEnablePublisher(false);
+            talker.setSteeringEnablePublisher(false);
+            talker.setBrakeEnablePublisher(false);
             automaticButtonState = false;
         }
     }
@@ -254,6 +262,7 @@ public class AutomaticControllActivity extends AppCompatRosActivity {
         if(!brakeDisplayed) {
            virtualJoystickVerticalView.setVisibility(View.GONE);
         }
+        talker.setThrotitleEnablePublisher(false);
     }
 
     private void userClickThrotitleManualButton() {
@@ -262,6 +271,7 @@ public class AutomaticControllActivity extends AppCompatRosActivity {
 
         throtitleDisplayed = true;
         virtualJoystickVerticalView.setVisibility(View.VISIBLE);
+        talker.setThrotitleEnablePublisher(true);
         joystickVerticalFuncionality();
     }
 
@@ -270,6 +280,7 @@ public class AutomaticControllActivity extends AppCompatRosActivity {
         steeringManualButton.setBackgroundColor(getResources().getColor(R.color.grey_light));
 
         virtualJoystickHorizontalView.setVisibility(View.GONE);
+        talker.setSteeringEnablePublisher(false);
     }
 
     private void userClickSteeringManualButton() {
@@ -277,6 +288,7 @@ public class AutomaticControllActivity extends AppCompatRosActivity {
         steeringManualButton.setBackgroundColor(getResources().getColor(R.color.green));
 
         virtualJoystickHorizontalView.setVisibility(View.VISIBLE);
+        talker.setSteeringEnablePublisher(true);
         joystickHorizontalFuncionality();
     }
 
@@ -288,6 +300,7 @@ public class AutomaticControllActivity extends AppCompatRosActivity {
         if(!throtitleDisplayed) {
             virtualJoystickVerticalView.setVisibility(View.GONE);
         }
+        talker.setBrakeEnablePublisher(false);
     }
 
     private void userClickBrakeManualButton() {
@@ -296,6 +309,7 @@ public class AutomaticControllActivity extends AppCompatRosActivity {
 
         brakeDisplayed = true;
         virtualJoystickVerticalView.setVisibility(View.VISIBLE);
+        talker.setBrakeEnablePublisher(true);
         joystickVerticalFuncionality();
     }
 
@@ -306,13 +320,20 @@ public class AutomaticControllActivity extends AppCompatRosActivity {
         pauseImageView.setColorFilter(Color.BLUE);
 
         talker.publisherForPlayButton();
+        if(automaticButtonState) {
+            userSentsVehicleMode(0);
+        } else {
+            userSentsVehicleMode(1);
+        }
     }
 
     private void joystickHorizontalFuncionality() {
         virtualJoystickHorizontalView.setOnMoveListener(new JoystickView.OnMoveListener() {
             @Override
             public void onMove(int angle, int strength) {
-                talker.publisherForSteering();
+                if(angle < 180) {
+                    talker.publisherForSteering(angle);
+                }
             }
         });
     }
@@ -321,7 +342,16 @@ public class AutomaticControllActivity extends AppCompatRosActivity {
         virtualJoystickVerticalView.setOnMoveListener(new JoystickView.OnMoveListener() {
             @Override
             public void onMove(int angle, int strength) {
-                talker.publisherForBrakeAndThrotitle();
+                float realVelocity = (strength * 100) / MAX_DEFAULT_SPEED;
+                if(throtitleDisplayed && angle < 270) {
+                    talker.publisherForBrakeAndThrotitle(realVelocity);
+                }
+
+                if(brakeDisplayed && angle > 270) {
+                    realVelocity = Math.abs(strength - 100);
+                    talker.publisherForBrakeAndThrotitle(realVelocity);
+                }
+
             }
         });
     }
@@ -330,18 +360,24 @@ public class AutomaticControllActivity extends AppCompatRosActivity {
         verdeModeButton.setBackgroundColor(getResources().getColor(R.color.grey_light));
         hInfiniteModeButton.setBackgroundColor(getResources().getColor(R.color.grey_light));
         stanleyModeButton.setBackgroundColor(getResources().getColor(R.color.green));
+
+        //TODO call to publisher
     }
 
     private void userClickHInfiniteModeButton() {
         verdeModeButton.setBackgroundColor(getResources().getColor(R.color.grey_light));
         hInfiniteModeButton.setBackgroundColor(getResources().getColor(R.color.green));
         stanleyModeButton.setBackgroundColor(getResources().getColor(R.color.grey_light));
+
+        //TODO call to publisher
     }
 
     private void userClickVerdeModeButton() {
         verdeModeButton.setBackgroundColor(getResources().getColor(R.color.green));
         hInfiniteModeButton.setBackgroundColor(getResources().getColor(R.color.grey_light));
         stanleyModeButton.setBackgroundColor(getResources().getColor(R.color.grey_light));
+
+        //TODO call to publisher
     }
 
     private void userClickPauseButton() {
@@ -398,15 +434,15 @@ public class AutomaticControllActivity extends AppCompatRosActivity {
         stillAliveRedImageView.setVisibility(View.GONE);
     }
 
-    public void setGeneralSpeedText(float float32) {
-        generalSpeedTextView.setText(String.valueOf(float32));
+    public void setGeneralSpeedText(double float64) {
+        generalSpeedTextView.setText(String.valueOf(float64));
     }
 
-    public void setGeneralSteeringText(float float32) {
-        generalSteeringTextView.setText(String.valueOf(float32));
+    public void setGeneralSteeringText(double float64) {
+        generalSteeringTextView.setText(String.valueOf(float64));
     }
 
-    public void userClickEmergencyButton() {
-        talker.publisherForEmergencyButton();
+    public void userSentsVehicleMode(int mode) {
+        talker.publisherForVehicleMode(mode);
     }
 }

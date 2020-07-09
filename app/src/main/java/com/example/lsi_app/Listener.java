@@ -3,6 +3,7 @@ package com.example.lsi_app;
 import android.widget.Toast;
 
 import org.ros.message.MessageListener;
+import org.ros.message.Time;
 import org.ros.namespace.GraphName;
 import org.ros.node.AbstractNodeMain;
 import org.ros.node.ConnectedNode;
@@ -11,6 +12,8 @@ import org.ros.node.topic.Subscriber;
 import java.util.Date;
 
 import std_msgs.Float32;
+import std_msgs.Float64;
+import std_msgs.Header;
 import std_msgs.String;
 
 public class Listener extends AbstractNodeMain {
@@ -19,10 +22,10 @@ public class Listener extends AbstractNodeMain {
     private JoystickActivity joystickActivity;
     private VisualizationActivity visualizationActivity;
     private ConnectedNode connectedNode;
-    private Subscriber<String> suscriberStillAlive;
-    private Subscriber<Float32> speedSubscriber;
-    private Subscriber<Float32> steeringSubscriber;
-    private Date initialDate = new Date();
+    private Subscriber<Header> suscriberStillAlive;
+    private Subscriber<Float64> speedSubscriber;
+    private Subscriber<Float64> steeringSubscriber;
+    private Time time;
 
     @Override
     public GraphName getDefaultNodeName() {
@@ -48,30 +51,36 @@ public class Listener extends AbstractNodeMain {
     @Override
     public void onStart(ConnectedNode connectedNode) {
         this.connectedNode = connectedNode;
-        //TODO change to header type
-        suscriberStillAlive = connectedNode.newSubscriber("stillAlive", String._TYPE);
-        suscriberStillAlive.addMessageListener(new MessageListener<String>() {
+        suscriberStillAlive = connectedNode.newSubscriber("stillAlive", Header._TYPE);
+        suscriberStillAlive.addMessageListener(new MessageListener<Header>() {
             @Override
-            public void onNewMessage(String string) {
+            public void onNewMessage(final Header header) {
                 automaticControllActivity.runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        Date newDate = new Date();
-                        long diffInMs = newDate.getTime() - initialDate.getTime();
-                        if(diffInMs > 1001) {
-                            automaticControllActivity.hideGreenStillAlive();
-                            automaticControllActivity.hideOrangeStillAlive();
-                            automaticControllActivity.showRedStillAlive();
-                        } else if (diffInMs > 200 && diffInMs < 1000) {
-                            automaticControllActivity.hideGreenStillAlive();
-                            automaticControllActivity.hideRedStillAlive();
-                            automaticControllActivity.showOrangeStillAlive();
-                        } else {
-                            automaticControllActivity.hideRedStillAlive();
-                            automaticControllActivity.hideOrangeStillAlive();
-                            automaticControllActivity.showGreenStillAlive();
+                        int finals = header.getStamp().secs;
+                        int finalns = header.getStamp().nsecs;
+                        if(time != null) {
+                            int initials = time.secs;
+                            int initialns = time.nsecs;
+                            int diferenceInS = finals - initials;
+                            int diferenceInNs = finalns - initialns;
+
+                            if (diferenceInS >= 1 || diferenceInNs >= 1000000000) {
+                                automaticControllActivity.hideGreenStillAlive();
+                                automaticControllActivity.hideOrangeStillAlive();
+                                automaticControllActivity.showRedStillAlive();
+                            } else if (diferenceInS >= 0.2 || diferenceInNs >= 200000000) {
+                                automaticControllActivity.hideGreenStillAlive();
+                                automaticControllActivity.hideRedStillAlive();
+                                automaticControllActivity.showOrangeStillAlive();
+                            } else {
+                                automaticControllActivity.hideRedStillAlive();
+                                automaticControllActivity.hideOrangeStillAlive();
+                                automaticControllActivity.showGreenStillAlive();
+                            }
                         }
-                        initialDate = newDate;
+                        time = header.getStamp();
                     }
                 });
             }
@@ -83,27 +92,27 @@ public class Listener extends AbstractNodeMain {
     }
 
     private void createListenersOfAutomaticControllActivity() {
-        speedSubscriber = connectedNode.newSubscriber("speed", Float32._TYPE);
-        speedSubscriber.addMessageListener(new MessageListener<Float32>() {
+        speedSubscriber = connectedNode.newSubscriber("speed", Float64._TYPE);
+        speedSubscriber.addMessageListener(new MessageListener<Float64>() {
             @Override
-            public void onNewMessage(final Float32 float32) {
+            public void onNewMessage(final Float64 float64) {
                 automaticControllActivity.runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        automaticControllActivity.setGeneralSpeedText(float32.getData());
+                        automaticControllActivity.setGeneralSpeedText(float64.getData());
                     }
                 });
             }
         });
 
-        steeringSubscriber = connectedNode.newSubscriber("steering_angle", Float32._TYPE);
-        steeringSubscriber.addMessageListener(new MessageListener<Float32>() {
+        steeringSubscriber = connectedNode.newSubscriber("steering_angle", Float64._TYPE);
+        steeringSubscriber.addMessageListener(new MessageListener<Float64>() {
             @Override
-            public void onNewMessage(final Float32 float32) {
+            public void onNewMessage(final Float64 float64) {
                 automaticControllActivity.runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        automaticControllActivity.setGeneralSteeringText(float32.getData());
+                        automaticControllActivity.setGeneralSteeringText(float64.getData());
                     }
                 });
             }
