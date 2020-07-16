@@ -1,8 +1,223 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".JoystickActivity">
+    tools:context=".JoystickActivity"
+    android:background="@color/white">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/first_automatic_relativelayout"
+        android:layout_centerHorizontal="true">
+
+        <RelativeLayout
+            android:id="@+id/direction_relativelayout"
+            android:layout_width="180dp"
+            android:layout_height="100dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="15dp"
+            android:background="@drawable/bkg_rectangle_with_border"
+            android:layout_alignParentLeft="true">
+
+            <TextView
+                android:id="@+id/direction_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:text="Dirección (º)"
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                android:gravity="center_horizontal"
+                android:layout_marginTop="2dp"
+                android:textSize="20dp">
+            </TextView>
+
+            <TextView
+                android:id="@+id/steering_number_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="2dp"
+                android:text="0"
+                android:layout_below="@id/direction_title"
+                android:textColor="@color/black"
+                android:textSize="40dp">
+            </TextView>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/speed_relativelayout"
+            android:layout_width="180dp"
+            android:layout_height="100dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginRight="10dp"
+            android:background="@drawable/bkg_rectangle_with_border"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true">
+
+            <TextView
+                android:id="@+id/speed_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:gravity="center_horizontal"
+                android:text="Velocidad (m/s)"
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                android:textSize="20dp">
+            </TextView>
+
+            <TextView
+                android:id="@+id/speed_number_textView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:text="0"
+                android:layout_below="@id/speed_title"
+                android:textColor="@color/black"
+                android:layout_marginTop="2dp"
+                android:textSize="40dp">
+            </TextView>
+        </RelativeLayout>
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/first_automatic_relativelayout"
+        android:gravity="center_horizontal"
+        android:layout_centerHorizontal="true"
+        android:orientation="horizontal"
+        android:layout_toRightOf="@+id/play_pause_relativelayout"
+        android:layout_toEndOf="@+id/play_pause_relativelayout"
+        android:layout_marginRight="40dp">
+
+        <io.github.controlwear.virtual.joystick.android.JoystickView
+            xmlns:custom="http://schemas.android.com/apk/res-auto"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            custom:JV_buttonColor="#3700B3"
+            custom:JV_buttonSizeRatio="17%"
+            custom:JV_borderColor="#3700B3"
+            custom:JV_backgroundColor="#FFFFFF"
+            custom:JV_borderWidth="4dp"
+            custom:JV_fixedCenter="false"
+            android:id="@+id/virtual_joystick_vertical_view"
+            android:rotation="90">
+        </io.github.controlwear.virtual.joystick.android.JoystickView>
+
+        <io.github.controlwear.virtual.joystick.android.JoystickView
+            xmlns:custom="http://schemas.android.com/apk/res-auto"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            custom:JV_buttonColor="#FFFFFF"
+            custom:JV_buttonSizeRatio="17%"
+            custom:JV_borderColor="#3700B3"
+            custom:JV_backgroundColor="#3700B3"
+            custom:JV_borderWidth="4dp"
+            custom:JV_fixedCenter="false"
+            android:id="@+id/virtual_joystick_horizontal_view">
+        </io.github.controlwear.virtual.joystick.android.JoystickView>
+
+    </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/play_pause_relativelayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/first_automatic_relativelayout"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp">
+
+        <ImageView
+            android:id="@+id/continue_button"
+            android:layout_width="43dp"
+            android:layout_height="43dp"
+            android:src="@mipmap/play"
+            android:layout_marginLeft="4dp"
+            android:padding="2dp">
+        </ImageView>
+
+        <ImageView
+            android:id="@+id/pause_button"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:src="@mipmap/pause"
+            android:layout_below="@id/continue_button"
+            android:layout_marginTop="5dp">
+        </ImageView>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/little_buttons_relative_layout">
+
+        <ImageView
+            android:id="@+id/stillAlive_green_imageview"
+            android:layout_width="35dp"
+            android:layout_height="40dp"
+            android:src="@mipmap/green_user"
+            android:layout_above="@id/emergency_button"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="18dp"
+            android:visibility="gone"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="18dp">
+        </ImageView>
+
+        <ImageView
+            android:id="@+id/stillAlive_orange_imageview"
+            android:layout_width="35dp"
+            android:layout_height="40dp"
+            android:src="@mipmap/orange_user"
+            android:layout_above="@id/emergency_button"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="18dp"
+            android:visibility="gone"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="18dp">
+        </ImageView>
+
+        <ImageView
+            android:id="@+id/stillAlive_red_imageview"
+            android:layout_width="35dp"
+            android:layout_height="40dp"
+            android:src="@mipmap/red_user"
+            android:layout_above="@id/emergency_button"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="18dp"
+            android:visibility="gone"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="18dp">
+        </ImageView>
+
+        <ImageView
+            android:id="@+id/emergency_button"
+            android:layout_width="50dp"
+            android:layout_height="60dp"
+            android:layout_above="@+id/exit_button"
+            android:src="@mipmap/panic"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="10dp"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="10dp">
+        </ImageView>
+
+        <ImageView
+            android:id="@+id/exit_button"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentEnd="true"
+            android:src="@mipmap/exit"
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="10dp"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="10dp">
+        </ImageView>
+    </RelativeLayout>
+</RelativeLayout>

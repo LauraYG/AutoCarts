@@ -55,13 +55,13 @@ public class DemosSelectorActivity extends AppCompatActivity {
     }
 
     private void userClickVisualizationMode() {
-        Intent intent = new Intent (DemosSelectorActivity.this, JoystickActivity.class);
+        Intent intent = new Intent (DemosSelectorActivity.this, VisualizationActivity.class);
         startActivity(intent);
         finish();
     }
 
     private void userClickJoyStickMode() {
-        Intent intent = new Intent (DemosSelectorActivity.this, VisualizationActivity.class);
+        Intent intent = new Intent (DemosSelectorActivity.this, JoystickActivity.class);
         startActivity(intent);
         finish();
     }

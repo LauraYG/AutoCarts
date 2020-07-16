@@ -3,7 +3,6 @@ package com.example.lsi_app;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
-import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -13,10 +12,10 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import org.ros.android.AppCompatRosActivity;
-import io.github.controlwear.virtual.joystick.android.JoystickView;
-
 import org.ros.node.NodeConfiguration;
 import org.ros.node.NodeMainExecutor;
+
+import io.github.controlwear.virtual.joystick.android.JoystickView;
 
 public class AutomaticControllActivity extends AppCompatRosActivity {
 

@@ -26,39 +26,33 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".MainActivity"
             android:screenOrientation="sensorLandscape"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
-
         <activity
             android:name=".DemosSelectorActivity"
             android:screenOrientation="sensorLandscape"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
-
         <activity android:name="org.ros.android.MasterChooser" />
-
         <activity
             android:name=".AutomaticControllActivity"
             android:screenOrientation="sensorLandscape"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
-
-        <activity android:name=".VisualizationActivity"
+        <activity
+            android:name=".VisualizationActivity"
             android:screenOrientation="sensorLandscape"
-            android:theme="@style/Theme.AppCompat.NoActionBar">
-        </activity>
-
-        <activity android:name=".JoystickActivity"
+            android:theme="@style/Theme.AppCompat.NoActionBar" />
+        <activity
+            android:name=".JoystickActivity"
             android:screenOrientation="sensorLandscape"
-            android:theme="@style/Theme.AppCompat.NoActionBar"/>
+            android:theme="@style/Theme.AppCompat.NoActionBar" />
 
-        <service android:name="org.ros.android.NodeMainExecutorService" >
+        <service android:name="org.ros.android.NodeMainExecutorService">
             <intent-filter>
                 <action android:name="org.ros.android.NodeMainExecutorService" />
             </intent-filter>
         </service>
-
     </application>
 
 </manifest>

@@ -1,8 +1,89 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".VisualizationActivity">
+    tools:context=".JoystickActivity"
+    android:background="@color/white">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <ImageView
+        android:id="@+id/show_topic_list_button"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:src="@mipmap/list"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginLeft="15dp"
+        android:layout_marginBottom="15dp">
+    </ImageView>
+
+    <RelativeLayout
+        android:id="@+id/little_buttons_relative_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/stillAlive_green_imageview"
+            android:layout_width="35dp"
+            android:layout_height="40dp"
+            android:src="@mipmap/green_user"
+            android:layout_above="@id/emergency_button"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="18dp"
+            android:visibility="gone"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="18dp">
+        </ImageView>
+
+        <ImageView
+            android:id="@+id/stillAlive_orange_imageview"
+            android:layout_width="35dp"
+            android:layout_height="40dp"
+            android:src="@mipmap/orange_user"
+            android:layout_above="@id/emergency_button"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="18dp"
+            android:visibility="gone"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="18dp">
+        </ImageView>
+
+        <ImageView
+            android:id="@+id/stillAlive_red_imageview"
+            android:layout_width="35dp"
+            android:layout_height="40dp"
+            android:src="@mipmap/red_user"
+            android:layout_above="@id/emergency_button"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="18dp"
+            android:visibility="gone"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="18dp">
+        </ImageView>
+
+        <ImageView
+            android:id="@+id/emergency_button"
+            android:layout_width="50dp"
+            android:layout_height="60dp"
+            android:layout_above="@+id/exit_button"
+            android:src="@mipmap/panic"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="10dp"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="10dp">
+        </ImageView>
+
+        <ImageView
+            android:id="@+id/exit_button"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentEnd="true"
+            android:src="@mipmap/exit"
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="10dp"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="10dp">
+        </ImageView>
+    </RelativeLayout>
+</RelativeLayout>

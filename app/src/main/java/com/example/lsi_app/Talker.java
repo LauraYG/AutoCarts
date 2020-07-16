@@ -1,14 +1,12 @@
 package com.example.lsi_app;
 
 import org.ros.concurrent.CancellableLoop;
-import org.ros.internal.message.RawMessage;
 import org.ros.message.Time;
 import org.ros.namespace.GraphName;
 import org.ros.node.AbstractNodeMain;
 import org.ros.node.ConnectedNode;
 import org.ros.node.topic.Publisher;
 
-import ackermann_msgs.AckermannDrive;
 import ackermann_msgs.AckermannDriveStamped;
 import std_msgs.Bool;
 import std_msgs.Header;
@@ -32,7 +30,7 @@ public class Talker extends AbstractNodeMain {
 
     @Override
     public GraphName getDefaultNodeName() {
-        return GraphName.of("rosjava/talker");
+        return GraphName.of("AutoCarts");
     }
 
 
@@ -74,6 +72,13 @@ public class Talker extends AbstractNodeMain {
             setThrotitleEnablePublisher(false);
             setSteeringEnablePublisher(false);
             setBrakeEnablePublisher(false);
+        }
+
+        if(joystickActivity != null) {
+            publisherForVehicleMode(0);
+            setThrotitleEnablePublisher(true);
+            setSteeringEnablePublisher(true);
+            setBrakeEnablePublisher(true);
         }
     }
 
