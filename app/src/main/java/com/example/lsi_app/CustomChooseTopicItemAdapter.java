@@ -16,10 +16,12 @@ public class CustomChooseTopicItemAdapter extends RecyclerView.Adapter<CustomCho
 
     private List<String> topicList;
     private Dialog dialog;
+    private VisualizationActivity visualizationActivity;
 
-    public CustomChooseTopicItemAdapter(List<String> topicList, Dialog dialog) {
+    public CustomChooseTopicItemAdapter(List<String> topicList, Dialog dialog, VisualizationActivity visualizationActivity) {
         this.topicList = topicList;
         this.dialog = dialog;
+        this.visualizationActivity = visualizationActivity;
     }
 
     @NonNull
@@ -39,14 +41,14 @@ public class CustomChooseTopicItemAdapter extends RecyclerView.Adapter<CustomCho
             holder.textView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    VisualizationActivity.subscribeToTopic(topic);
+                    visualizationActivity.subscribeToTopic(topic);
                     dialog.dismiss();
                 }
             });
             holder.imageView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    VisualizationActivity.subscribeToTopic(topic);
+                    visualizationActivity.subscribeToTopic(topic);
                     dialog.dismiss();
                 }
             });

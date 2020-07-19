@@ -7,6 +7,8 @@ import org.ros.node.AbstractNodeMain;
 import org.ros.node.ConnectedNode;
 import org.ros.node.topic.Subscriber;
 
+import sensor_msgs.Image;
+import sensor_msgs.NavSatFix;
 import std_msgs.Float64;
 import std_msgs.Header;
 
@@ -19,6 +21,8 @@ public class Listener extends AbstractNodeMain {
     private Subscriber<Header> suscriberStillAlive;
     private Subscriber<Float64> speedSubscriber;
     private Subscriber<Float64> steeringSubscriber;
+    private Subscriber<sensor_msgs.Image> imageSubscriber;
+    private Subscriber<sensor_msgs.NavSatFix> navSatFixSubscriber;
     private Time time;
 
     @Override
@@ -225,6 +229,38 @@ public class Listener extends AbstractNodeMain {
                 });
             }
         });
+    }
+
+    public void createListenerForImageFormat(String topic) {
+        imageSubscriber = connectedNode.newSubscriber(topic, Image._TYPE);
+        imageSubscriber.addMessageListener(new MessageListener<Image>() {
+            @Override
+            public void onNewMessage(Image image) {
+                visualizationActivity.showImageFromSubscriber(image);
+            }
+        });
+    }
+
+    public void createListenerForPositionFormat(String topic) {
+        navSatFixSubscriber = connectedNode.newSubscriber(topic, NavSatFix._TYPE);
+        navSatFixSubscriber.addMessageListener(new MessageListener<NavSatFix>() {
+            @Override
+            public void onNewMessage(NavSatFix navSatFix) {
+                visualizationActivity.showPositionInMap(navSatFix);
+            }
+        });
+    }
+
+    public void shutdownImageSubscriber() {
+        if (imageSubscriber != null) {
+            imageSubscriber.shutdown();
+        }
+    }
+
+    public void shutdownPositionSubscriber() {
+        if (navSatFixSubscriber != null) {
+            imageSubscriber.shutdown();
+        }
     }
 
     public void closeAutomaticControllActivity() {
