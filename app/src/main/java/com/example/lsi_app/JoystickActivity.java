@@ -194,7 +194,7 @@ public class JoystickActivity extends AppCompatRosActivity {
                 }
 
                 if(angle > 270) {
-                    realVelocity = Math.abs(strength - 100);
+                    realVelocity = Math.abs(((strength * 100) / MAX_DEFAULT_SPEED) - 100);
                     talker.publisherForBrakeAndThrotitle(realVelocity);
                 }
 

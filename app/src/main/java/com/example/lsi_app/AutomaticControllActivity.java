@@ -19,7 +19,7 @@ import io.github.controlwear.virtual.joystick.android.JoystickView;
 
 public class AutomaticControllActivity extends AppCompatRosActivity {
 
-    private float MAX_DEFAULT_SPEED = 200;
+    private float MAX_DEFAULT_SPEED = 33.33f;
 
     private Button automaticButton;
     private Button throtitleAutoButton;
@@ -347,10 +347,9 @@ public class AutomaticControllActivity extends AppCompatRosActivity {
                 }
 
                 if(brakeDisplayed && angle > 270) {
-                    realVelocity = Math.abs(strength - 100);
+                    realVelocity = Math.abs(((strength * 100) / MAX_DEFAULT_SPEED) - 100);
                     talker.publisherForBrakeAndThrotitle(realVelocity);
                 }
-
             }
         });
     }
