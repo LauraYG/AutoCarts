@@ -27,6 +27,9 @@ public class Talker extends AbstractNodeMain {
     private Publisher<std_msgs.Bool> throtitleEnablePublisher;
     private Publisher<std_msgs.Bool> steeringEnablePublisher;
     private Publisher<std_msgs.Bool> brakeEnablePublisher;
+    private Publisher<Header> verdeModePublisher;
+    private Publisher<Header> hInfiniteModePublisher;
+    private Publisher<Header> stanleyModePublisher;
 
     @Override
     public GraphName getDefaultNodeName() {
@@ -44,9 +47,6 @@ public class Talker extends AbstractNodeMain {
 
     public Talker(VisualizationActivity visualizationActivity){
         this.visualizationActivity = visualizationActivity;
-    }
-
-    public Talker() {
     }
 
     @Override
@@ -98,6 +98,29 @@ public class Talker extends AbstractNodeMain {
         pausePublisher.publish(pauseHeader);
     }
 
+    public void publisherForVerdeModeButton() {
+        verdeModePublisher = connectedNode.newPublisher("verdeMode", Header._TYPE);
+        std_msgs.Header pauseHeader = verdeModePublisher.newMessage();
+        pauseHeader.setStamp(new Time());
+        pauseHeader.setFrameId("Phone");
+        verdeModePublisher.publish(pauseHeader);
+    }
+
+    public void publisherForHInfiniteModeButton() {
+        hInfiniteModePublisher = connectedNode.newPublisher("hInfiniteMode", Header._TYPE);
+        std_msgs.Header pauseHeader = hInfiniteModePublisher.newMessage();
+        pauseHeader.setStamp(new Time());
+        pauseHeader.setFrameId("Phone");
+        hInfiniteModePublisher.publish(pauseHeader);
+    }
+
+    public void publisherForStanleyModeButton() {
+        stanleyModePublisher = connectedNode.newPublisher("stanleyMode", Header._TYPE);
+        std_msgs.Header pauseHeader = pausePublisher.newMessage();
+        pauseHeader.setStamp(new Time());
+        pauseHeader.setFrameId("Phone");
+        stanleyModePublisher.publish(pauseHeader);
+    }
     public void publisherForVehicleMode(int mode) {
         vehicleModePublisher = connectedNode.newPublisher("ada/vehicle_mode", Int32._TYPE);
         std_msgs.Int32 vehicleMode = vehicleModePublisher.newMessage();
@@ -161,16 +184,27 @@ public class Talker extends AbstractNodeMain {
     }
     
 
-    public void closeAutomaticControllActivity() {
-        //Todo shutdowns from AutoMaticControllActivity
-    }
-
-    public void closeJoystickActivity() {
-        //Todo shutdowns from JoystickActivity
-    }
-
-    public void closeVisualizationActivity() {
-        //Todo shutdowns from VisualizationActivity
+    public void closeActivity() {
+        if (stillAlivePublisher != null) {
+            stillAlivePublisher.shutdown();
+        } else if (playPublisher != null) {
+            playPublisher.shutdown();
+        } else if (pausePublisher != null) {
+            pausePublisher.shutdown();
+        } else if (vehicleModePublisher != null) {
+            vehicleModePublisher.shutdown();
+        } else if (throtitleAndBrakePublisher != null) {
+            throtitleAndBrakePublisher.shutdown();
+        } else if (steeringPublisher != null) {
+            steeringPublisher.shutdown();
+        } else if (throtitleEnablePublisher != null) {
+            throtitleEnablePublisher.shutdown();
+        } else if (steeringEnablePublisher != null) {
+            steeringEnablePublisher.shutdown();
+        } else if (brakeEnablePublisher != null) {
+            brakeEnablePublisher.shutdown();
+        }
+        connectedNode.shutdown();
     }
 }
 

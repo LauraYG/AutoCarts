@@ -33,6 +33,19 @@
     </com.google.android.gms.maps.MapView>
 
     <ImageView
+        android:id="@+id/image_for_subscriber"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginBottom="20dp"
+        android:visibility="gone"
+        android:layout_toStartOf="@id/exit_button"
+        android:layout_toEndOf="@id/show_topic_list_button">
+    </ImageView>
+
+    <ImageView
         android:id="@+id/stillAlive_green_imageview"
         android:layout_width="35dp"
         android:layout_height="40dp"

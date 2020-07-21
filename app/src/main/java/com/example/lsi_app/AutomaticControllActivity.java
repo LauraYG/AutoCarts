@@ -2,12 +2,10 @@ package com.example.lsi_app;
 
 import android.content.Intent;
 import android.graphics.Color;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -40,10 +38,6 @@ public class AutomaticControllActivity extends AppCompatRosActivity {
     private ImageView stillAliveGreenImageView;
     private ImageView stillAliveOrangeImageView;
     private ImageView stillAliveRedImageView;
-    private Drawable batteryProgressBarStyleDrawable;
-    private Drawable upsProgressBarStyleDrawable;
-    private ProgressBar batteryProgressBar;
-    private ProgressBar upsProgressBar;
     private RelativeLayout automaticSwitchRelativeLayout;
     private RelativeLayout autoModesRelativeLayout;
     private JoystickView virtualJoystickHorizontalView;
@@ -95,8 +89,6 @@ public class AutomaticControllActivity extends AppCompatRosActivity {
         continueImageView = findViewById(R.id.continue_button);
         pauseImageView = findViewById(R.id.pause_button);
         exitButton = findViewById(R.id.exit_button);
-        //batteryProgressBar = findViewById(R.id.battery_progressbar);
-        //upsProgressBar = findViewById(R.id.ups_progressbar);
         autoModesRelativeLayout = findViewById(R.id.auto_modes_relativelayout);
         stanleyModeButton = findViewById(R.id.stanley_mode_button);
         hInfiniteModeButton = findViewById(R.id.h_infinite_mode_button);
@@ -117,14 +109,6 @@ public class AutomaticControllActivity extends AppCompatRosActivity {
         pauseImageView.setColorFilter(Color.WHITE);
         pauseImageView.setBackgroundColor(Color.BLUE);
         exitButton.setColorFilter(Color.BLUE);
-        /*if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            //batteryProgressBarStyleDrawable = getDrawable(R.drawable.customprogressbar);
-            //upsProgressBarStyleDrawable = getDrawable(R.drawable.customprogressbar);
-        }
-        batteryProgressBar.setProgressDrawable(batteryProgressBarStyleDrawable);
-        upsProgressBar.setProgressDrawable(upsProgressBarStyleDrawable);
-        batteryProgressBar.setProgress(50);
-        upsProgressBar.setProgress(20);*/
     }
 
     private void onClickListenersOfButtons(){
@@ -246,9 +230,13 @@ public class AutomaticControllActivity extends AppCompatRosActivity {
             virtualJoystickVerticalView.setVisibility(View.GONE);
             setInitialDesignForButtons();
             userSentsVehicleMode(1);
-            talker.setThrotitleEnablePublisher(false);
-            talker.setSteeringEnablePublisher(false);
-            talker.setBrakeEnablePublisher(false);
+            if(talker != null) {
+                talker.setThrotitleEnablePublisher(false);
+                talker.setSteeringEnablePublisher(false);
+                talker.setBrakeEnablePublisher(false);
+            } else {
+                returnForBeWithoutMaster();
+            }
             automaticButtonState = false;
         }
     }
@@ -261,7 +249,11 @@ public class AutomaticControllActivity extends AppCompatRosActivity {
         if(!brakeDisplayed) {
            virtualJoystickVerticalView.setVisibility(View.GONE);
         }
-        talker.setThrotitleEnablePublisher(false);
+        if(talker != null) {
+            talker.setThrotitleEnablePublisher(false);
+        } else {
+            returnForBeWithoutMaster();
+        }
     }
 
     private void userClickThrotitleManualButton() {
@@ -270,7 +262,11 @@ public class AutomaticControllActivity extends AppCompatRosActivity {
 
         throtitleDisplayed = true;
         virtualJoystickVerticalView.setVisibility(View.VISIBLE);
-        talker.setThrotitleEnablePublisher(true);
+        if(talker != null) {
+            talker.setThrotitleEnablePublisher(true);
+        } else {
+            returnForBeWithoutMaster();
+        }
         joystickVerticalFuncionality();
     }
 
@@ -279,7 +275,11 @@ public class AutomaticControllActivity extends AppCompatRosActivity {
         steeringManualButton.setBackgroundColor(getResources().getColor(R.color.grey_light));
 
         virtualJoystickHorizontalView.setVisibility(View.GONE);
-        talker.setSteeringEnablePublisher(false);
+        if(talker != null) {
+            talker.setSteeringEnablePublisher(false);
+        } else {
+            returnForBeWithoutMaster();
+        }
     }
 
     private void userClickSteeringManualButton() {
@@ -287,7 +287,11 @@ public class AutomaticControllActivity extends AppCompatRosActivity {
         steeringManualButton.setBackgroundColor(getResources().getColor(R.color.green));
 
         virtualJoystickHorizontalView.setVisibility(View.VISIBLE);
-        talker.setSteeringEnablePublisher(true);
+        if(talker != null) {
+            talker.setSteeringEnablePublisher(true);
+        } else {
+            returnForBeWithoutMaster();
+        }
         joystickHorizontalFuncionality();
     }
 
@@ -299,7 +303,11 @@ public class AutomaticControllActivity extends AppCompatRosActivity {
         if(!throtitleDisplayed) {
             virtualJoystickVerticalView.setVisibility(View.GONE);
         }
-        talker.setBrakeEnablePublisher(false);
+        if(talker != null) {
+            talker.setBrakeEnablePublisher(false);
+        } else {
+            returnForBeWithoutMaster();
+        }
     }
 
     private void userClickBrakeManualButton() {
@@ -308,7 +316,11 @@ public class AutomaticControllActivity extends AppCompatRosActivity {
 
         brakeDisplayed = true;
         virtualJoystickVerticalView.setVisibility(View.VISIBLE);
-        talker.setBrakeEnablePublisher(true);
+        if(talker != null) {
+            talker.setBrakeEnablePublisher(true);
+        } else {
+            returnForBeWithoutMaster();
+        }
         joystickVerticalFuncionality();
     }
 
@@ -318,7 +330,11 @@ public class AutomaticControllActivity extends AppCompatRosActivity {
         pauseImageView.setBackgroundColor(Color.WHITE);
         pauseImageView.setColorFilter(Color.BLUE);
 
-        talker.publisherForPlayButton();
+        if(talker != null) {
+            talker.publisherForPlayButton();
+        } else {
+            returnForBeWithoutMaster();
+        }
         if(automaticButtonState) {
             userSentsVehicleMode(0);
         } else {
@@ -331,7 +347,11 @@ public class AutomaticControllActivity extends AppCompatRosActivity {
             @Override
             public void onMove(int angle, int strength) {
                 if(angle < 180) {
-                    talker.publisherForSteering(angle);
+                    if(talker != null) {
+                        talker.publisherForSteering(angle);
+                    } else {
+                        returnForBeWithoutMaster();
+                    }
                 }
             }
         });
@@ -343,12 +363,20 @@ public class AutomaticControllActivity extends AppCompatRosActivity {
             public void onMove(int angle, int strength) {
                 float realVelocity = (strength * 100) / MAX_DEFAULT_SPEED;
                 if(throtitleDisplayed && angle < 270) {
-                    talker.publisherForBrakeAndThrotitle(realVelocity);
+                    if(talker != null) {
+                        talker.publisherForBrakeAndThrotitle(realVelocity);
+                    } else {
+                        returnForBeWithoutMaster();
+                    }
                 }
 
                 if(brakeDisplayed && angle > 270) {
                     realVelocity = Math.abs(((strength * 100) / MAX_DEFAULT_SPEED) - 100);
-                    talker.publisherForBrakeAndThrotitle(realVelocity);
+                    if(talker != null) {
+                        talker.publisherForBrakeAndThrotitle(realVelocity);
+                    } else {
+                        returnForBeWithoutMaster();
+                    }
                 }
             }
         });
@@ -359,7 +387,11 @@ public class AutomaticControllActivity extends AppCompatRosActivity {
         hInfiniteModeButton.setBackgroundColor(getResources().getColor(R.color.grey_light));
         stanleyModeButton.setBackgroundColor(getResources().getColor(R.color.green));
 
-        //TODO call to publisher
+        if (talker != null) {
+            talker.publisherForStanleyModeButton();
+        } else {
+            returnForBeWithoutMaster();
+        }
     }
 
     private void userClickHInfiniteModeButton() {
@@ -367,7 +399,11 @@ public class AutomaticControllActivity extends AppCompatRosActivity {
         hInfiniteModeButton.setBackgroundColor(getResources().getColor(R.color.green));
         stanleyModeButton.setBackgroundColor(getResources().getColor(R.color.grey_light));
 
-        //TODO call to publisher
+        if(talker != null) {
+            talker.publisherForHInfiniteModeButton();
+        } else {
+            returnForBeWithoutMaster();
+        }
     }
 
     private void userClickVerdeModeButton() {
@@ -375,7 +411,11 @@ public class AutomaticControllActivity extends AppCompatRosActivity {
         hInfiniteModeButton.setBackgroundColor(getResources().getColor(R.color.grey_light));
         stanleyModeButton.setBackgroundColor(getResources().getColor(R.color.grey_light));
 
-        //TODO call to publisher
+        if(talker != null) {
+            talker.publisherForVerdeModeButton();
+        } else {
+            returnForBeWithoutMaster();
+        }
     }
 
     private void userClickPauseButton() {
@@ -383,7 +423,11 @@ public class AutomaticControllActivity extends AppCompatRosActivity {
         pauseImageView.setColorFilter(Color.WHITE);
         continueImageView.setBackgroundColor(Color.WHITE);
         continueImageView.setColorFilter(Color.BLUE);
-        talker.publisherForPauseButton();
+        if(talker != null) {
+            talker.publisherForPauseButton();
+        } else {
+            returnForBeWithoutMaster();
+        }
     }
 
     private void setInitialDesignForButtons(){
@@ -403,9 +447,13 @@ public class AutomaticControllActivity extends AppCompatRosActivity {
     }
 
     private void returnToHomeActivity() {
+        if(listener != null && talker != null) {
+            listener.closeActivity();
+            talker.closeActivity();
+        }
+        finish();
         Intent intent = new Intent (AutomaticControllActivity.this, MainActivity.class);
         startActivity(intent);
-        finish();
     }
 
     public void showGreenStillAlive() {
@@ -441,7 +489,11 @@ public class AutomaticControllActivity extends AppCompatRosActivity {
     }
 
     public void userSentsVehicleMode(int mode) {
-        talker.publisherForVehicleMode(mode);
+        if(talker != null) {
+            talker.publisherForVehicleMode(mode);
+        } else {
+            returnForBeWithoutMaster();
+        }
     }
 
     @Override
@@ -457,5 +509,11 @@ public class AutomaticControllActivity extends AppCompatRosActivity {
     @Override
     public void onDestroy() {
         super.onDestroy();
+    }
+
+    public void returnForBeWithoutMaster() {
+        finish();
+        Intent intent = new Intent (AutomaticControllActivity.this, MainActivity.class);
+        startActivity(intent);
     }
 }

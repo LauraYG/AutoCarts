@@ -8,6 +8,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -32,8 +33,10 @@ import org.ros.node.NodeConfiguration;
 import org.ros.node.NodeMainExecutor;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
+import sensor_msgs.CompressedImage;
 import sensor_msgs.Image;
 import sensor_msgs.NavSatFix;
 
@@ -51,6 +54,8 @@ public class VisualizationActivity extends AppCompatRosActivity implements OnMap
     private List<String> topicsForVisualizationList = new ArrayList<>();
     private MapView mapView;
     private NavSatFix actualNavSatFix;
+    private Thread imageThread;
+    private Thread mapThread;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,19 +93,24 @@ public class VisualizationActivity extends AppCompatRosActivity implements OnMap
         exitImageView = findViewById(R.id.exit_button);
         showTopicListButton = findViewById(R.id.show_topic_list_button);
         mapView = findViewById(R.id.map);
+        imageForSubscriber = findViewById(R.id.image_for_subscriber);
     }
 
     private void getTopics() {
-        MasterClient masterClient = new MasterClient(getMasterUri());
-        Response<List<TopicType>> listTopic = masterClient.getTopicTypes(GraphName.of("AutoCarts"));
-        topicsForVisualizationList.clear();
-        if(!listTopic.getResult().isEmpty()) {
-            for (int i = 0; i < listTopic.getResult().size(); i++) {
-                TopicType topicType = listTopic.getResult().get(i);
-                if (topicType.getMessageType().equals("sensor_msgs/NavSatFix") || topicType.getMessageType().equals("sensor_msgs/Image")) {
-                    topicsForVisualizationList.add(topicType.getName());
+        if(getMasterUri() != null) {
+            MasterClient masterClient = new MasterClient(getMasterUri());
+            Response<List<TopicType>> listTopic = masterClient.getTopicTypes(GraphName.of("AutoCarts"));
+            topicsForVisualizationList.clear();
+            if (!listTopic.getResult().isEmpty()) {
+                for (int i = 0; i < listTopic.getResult().size(); i++) {
+                    TopicType topicType = listTopic.getResult().get(i);
+                    if (topicType.getMessageType().equals("sensor_msgs/NavSatFix") || topicType.getMessageType().equals("sensor_msgs/CompressedImage")) {
+                        topicsForVisualizationList.add(topicType.getName());
+                    }
                 }
             }
+        } else {
+            returnForBeWithoutMaster();
         }
     }
 
@@ -132,60 +142,85 @@ public class VisualizationActivity extends AppCompatRosActivity implements OnMap
     }
 
     public void subscribeToTopic (String topic){
-        MasterClient masterClient = new MasterClient(getMasterUri());
-        Response<List<TopicType>> listTopic = masterClient.getTopicTypes(GraphName.of("AutoCarts"));
-        for (int i = 0; i < listTopic.getResult().size(); i ++) {
-            TopicType topicType = listTopic.getResult().get(i);
-            if (topicType.getName().equals(topic)) {
-                if(topicType.getMessageType().equals("sensor_msgs/Image")) {
-                    listener.createListenerForImageFormat(topic);
-                } else {
-                    listener.createListenerForPositionFormat(topic);
+        if(getMasterUri() != null) {
+            MasterClient masterClient = new MasterClient(getMasterUri());
+            Response<List<TopicType>> listTopic = masterClient.getTopicTypes(GraphName.of("AutoCarts"));
+            for (int i = 0; i < listTopic.getResult().size(); i++) {
+                TopicType topicType = listTopic.getResult().get(i);
+                if (topicType.getName().equals(topic)) {
+                    if (topicType.getMessageType().equals("sensor_msgs/CompressedImage")) {
+                        listener.createListenerForImageFormat(topic);
+                    } else {
+                        listener.createListenerForPositionFormat(topic);
+                    }
                 }
             }
+        } else {
+            returnForBeWithoutMaster();
         }
     }
 
-    public void showImageFromSubscriber(Image image) {
+    public void showImageFromSubscriber(CompressedImage image) {
         if(mapView != null) {
-            mapView.setVisibility(View.GONE);
+            if(mapThread != null) {
+                mapThread.interrupt();
+            }
         }
-        listener.shutdownPositionSubscriber();
         ChannelBuffer channelBuffer = image.getData();
         byte[] data = channelBuffer.array();
         final Bitmap bmp = BitmapFactory.decodeByteArray(data, channelBuffer.arrayOffset(), channelBuffer.readableBytes());
-        runOnUiThread(new Runnable() {
-            @Override
+
+        imageThread = new Thread() {
             public void run() {
-                imageForSubscriber.setImageBitmap(bmp);
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        if(mapView != null) {
+                            mapView.setVisibility(View.GONE);
+                            mapView.onStop();
+                        }
+                        imageForSubscriber.setVisibility(View.VISIBLE);
+                        imageForSubscriber.setImageBitmap(bmp);
+                    }
+                });
             }
-        });
+        };
+        imageThread.start();
     }
 
     public void showPositionInMap(NavSatFix navSatFix) {
         actualNavSatFix = navSatFix;
         if(imageForSubscriber != null) {
-            imageForSubscriber.setVisibility(View.GONE);
+            if(imageThread != null) {
+                imageThread.interrupt();
+            }
         }
-        listener.shutdownImageSubscriber();
-        this.runOnUiThread(new Runnable() {
-            @Override
+        mapThread = new Thread() {
             public void run() {
-                mapView.getMapAsync(new OnMapReadyCallback() {
+                runOnUiThread(new Runnable() {
                     @Override
-                    public void onMapReady(GoogleMap googleMap) {
-                        if(googleMap != null) {
-                            LatLng latLng = new LatLng(actualNavSatFix.getLatitude(), actualNavSatFix.getLongitude());
-                            MarkerOptions markerOptions = new MarkerOptions().position(latLng);
-                            googleMap.clear();
-                            googleMap.addMarker(markerOptions);
-                            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 18f));
+                    public void run() {
+                        if(imageForSubscriber != null) {
+                            imageForSubscriber.setVisibility(View.GONE);
                         }
+                        mapView.getMapAsync(new OnMapReadyCallback() {
+                            @Override
+                            public void onMapReady(GoogleMap googleMap) {
+                                if (googleMap != null) {
+                                    LatLng latLng = new LatLng(actualNavSatFix.getLatitude(), actualNavSatFix.getLongitude());
+                                    MarkerOptions markerOptions = new MarkerOptions().position(latLng);
+                                    googleMap.clear();
+                                    googleMap.addMarker(markerOptions);
+                                    googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 18f));
+                                }
+                            }
+                        });
+                        mapView.setVisibility(View.VISIBLE);
                     }
                 });
-                mapView.setVisibility(View.VISIBLE);
             }
-        });
+        };
+        mapThread.start();
     }
 
     private void onClickListenerForButtons() {
@@ -220,14 +255,19 @@ public class VisualizationActivity extends AppCompatRosActivity implements OnMap
     }
 
     private void userClickExitButton() {
+        if(talker != null && listener != null) {
+            talker.closeActivity();
+            listener.closeActivity();
+        }
         Intent intent = new Intent (VisualizationActivity.this, DemosSelectorActivity.class);
         startActivity(intent);
         finish();
-        //TODO add shutdowns
     }
 
     public void userSentsVehicleMode(int mode) {
-        talker.publisherForVehicleMode(mode);
+        if(talker != null) {
+            talker.publisherForVehicleMode(mode);
+        }
     }
 
     public void hideGreenStillAlive() {
@@ -293,5 +333,11 @@ public class VisualizationActivity extends AppCompatRosActivity implements OnMap
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
         mapView.onSaveInstanceState(outState);
+    }
+
+    public void returnForBeWithoutMaster() {
+        finish();
+        Intent intent = new Intent (VisualizationActivity.this, MainActivity.class);
+        startActivity(intent);
     }
 }

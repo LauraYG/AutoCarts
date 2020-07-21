@@ -7,6 +7,7 @@ import org.ros.node.AbstractNodeMain;
 import org.ros.node.ConnectedNode;
 import org.ros.node.topic.Subscriber;
 
+import sensor_msgs.CompressedImage;
 import sensor_msgs.Image;
 import sensor_msgs.NavSatFix;
 import std_msgs.Float64;
@@ -21,7 +22,7 @@ public class Listener extends AbstractNodeMain {
     private Subscriber<Header> suscriberStillAlive;
     private Subscriber<Float64> speedSubscriber;
     private Subscriber<Float64> steeringSubscriber;
-    private Subscriber<sensor_msgs.Image> imageSubscriber;
+    private Subscriber<sensor_msgs.CompressedImage> imageSubscriber;
     private Subscriber<sensor_msgs.NavSatFix> navSatFixSubscriber;
     private Time time;
 
@@ -41,9 +42,6 @@ public class Listener extends AbstractNodeMain {
 
     public Listener(VisualizationActivity visualizationActivity){
         this.visualizationActivity = visualizationActivity;
-    }
-
-    public Listener() {
     }
 
     @Override
@@ -232,16 +230,18 @@ public class Listener extends AbstractNodeMain {
     }
 
     public void createListenerForImageFormat(String topic) {
-        imageSubscriber = connectedNode.newSubscriber(topic, Image._TYPE);
-        imageSubscriber.addMessageListener(new MessageListener<Image>() {
+        shutdownPositionSubscriber();
+        imageSubscriber = connectedNode.newSubscriber(topic, CompressedImage._TYPE);
+        imageSubscriber.addMessageListener(new MessageListener<CompressedImage>() {
             @Override
-            public void onNewMessage(Image image) {
+            public void onNewMessage(CompressedImage image) {
                 visualizationActivity.showImageFromSubscriber(image);
             }
         });
     }
 
     public void createListenerForPositionFormat(String topic) {
+        shutdownImageSubscriber();
         navSatFixSubscriber = connectedNode.newSubscriber(topic, NavSatFix._TYPE);
         navSatFixSubscriber.addMessageListener(new MessageListener<NavSatFix>() {
             @Override
@@ -259,20 +259,23 @@ public class Listener extends AbstractNodeMain {
 
     public void shutdownPositionSubscriber() {
         if (navSatFixSubscriber != null) {
-            imageSubscriber.shutdown();
+            navSatFixSubscriber.shutdown();
         }
     }
 
-    public void closeAutomaticControllActivity() {
-        //Todo shutdowns from AutoMaticControllActivity
-    }
-
-    public void closeJoystickActivity() {
-        //Todo shutdowns from JoystickActivity
-    }
-
-    public void closeVisualizationActivity() {
-        //Todo shutdowns from VisualizationActivity
+    public void closeActivity() {
+        if (suscriberStillAlive != null) {
+            suscriberStillAlive.shutdown();
+        } else if (speedSubscriber != null) {
+            speedSubscriber.shutdown();
+        } else if (steeringSubscriber != null) {
+            steeringSubscriber.shutdown();
+        } else if (imageSubscriber != null) {
+            imageSubscriber.shutdown();
+        } else if (navSatFixSubscriber != null) {
+            navSatFixSubscriber.shutdown();
+        }
+        connectedNode.shutdown();
     }
 }
 

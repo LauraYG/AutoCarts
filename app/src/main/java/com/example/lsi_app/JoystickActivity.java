@@ -116,7 +116,11 @@ public class JoystickActivity extends AppCompatRosActivity {
         pauseImageView.setBackgroundColor(Color.WHITE);
         pauseImageView.setColorFilter(Color.BLUE);
 
-        talker.publisherForPlayButton();
+        if(talker != null) {
+            talker.publisherForPlayButton();
+        } else {
+            returnForBeWithoutMaster();
+        }
         userSentsVehicleMode(0);
     }
 
@@ -125,7 +129,11 @@ public class JoystickActivity extends AppCompatRosActivity {
         pauseImageView.setColorFilter(Color.WHITE);
         continueImageView.setBackgroundColor(Color.WHITE);
         continueImageView.setColorFilter(Color.BLUE);
-        talker.publisherForPauseButton();
+        if(talker != null) {
+            talker.publisherForPauseButton();
+        } else {
+            returnForBeWithoutMaster();
+        }
     }
 
     private void userClickEmergencyButton() {
@@ -133,14 +141,21 @@ public class JoystickActivity extends AppCompatRosActivity {
     }
 
     private void userClickExitButton() {
+        if(talker != null && listener != null) {
+            listener.closeActivity();
+            talker.closeActivity();
+        }
         Intent intent = new Intent (JoystickActivity.this, DemosSelectorActivity.class);
         startActivity(intent);
         finish();
-        //TODO add shutdowns
     }
 
     public void userSentsVehicleMode(int mode) {
-        talker.publisherForVehicleMode(mode);
+        if(talker != null) {
+            talker.publisherForVehicleMode(mode);
+        } else {
+            returnForBeWithoutMaster();
+        }
     }
 
     public void hideGreenStillAlive() {
@@ -180,7 +195,11 @@ public class JoystickActivity extends AppCompatRosActivity {
             @Override
             public void onMove(int angle, int strength) {
                 if(angle < 180) {
-                    talker.publisherForSteering(angle);
+                    if(talker != null) {
+                        talker.publisherForSteering(angle);
+                    } else {
+                        returnForBeWithoutMaster();
+                    }
                 }
             }
         });
@@ -190,12 +209,20 @@ public class JoystickActivity extends AppCompatRosActivity {
             public void onMove(int angle, int strength) {
                 float realVelocity = (strength * 100) / MAX_DEFAULT_SPEED;
                 if(angle < 270) {
-                    talker.publisherForBrakeAndThrotitle(realVelocity);
+                    if (talker != null) {
+                        talker.publisherForBrakeAndThrotitle(realVelocity);
+                    } else {
+                        returnForBeWithoutMaster();
+                    }
                 }
 
                 if(angle > 270) {
                     realVelocity = Math.abs(((strength * 100) / MAX_DEFAULT_SPEED) - 100);
-                    talker.publisherForBrakeAndThrotitle(realVelocity);
+                    if(talker != null) {
+                        talker.publisherForBrakeAndThrotitle(realVelocity);
+                    } else {
+                        returnForBeWithoutMaster();
+                    }
                 }
 
             }
@@ -215,5 +242,11 @@ public class JoystickActivity extends AppCompatRosActivity {
     @Override
     public void onDestroy() {
         super.onDestroy();
+    }
+
+    public void returnForBeWithoutMaster() {
+        finish();
+        Intent intent = new Intent (JoystickActivity.this, MainActivity.class);
+        startActivity(intent);
     }
 }

@@ -9,6 +9,7 @@
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
 
     <application
         android:allowBackup="true"
@@ -57,7 +58,7 @@
         </service>
 
         <meta-data android:name="com.google.android.maps.v2.API_KEY"
-            android:value="AIzaSyB9ijkoXqvfxc7n9Ob9BEs4qDHprsjMgeE">
+            android:value="AIzaSyD6r0i3GieQzGIw8GcRhrdmZxzpDvU0Igs">
         </meta-data>
     </application>
 
