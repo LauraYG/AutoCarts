@@ -121,9 +121,6 @@ public class Listener extends AbstractNodeMain {
                 });
             }
         });
-
-        //TODO battery subscriber
-        //TODO UPS subscriber
     }
 
     private void createListenersOfJoystickActivity() {
@@ -187,9 +184,6 @@ public class Listener extends AbstractNodeMain {
                 });
             }
         });
-
-        //TODO battery subscriber
-        //TODO UPS subscriber
     }
 
     private void createListenersOfVisualizationActivity() {

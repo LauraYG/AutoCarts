@@ -139,7 +139,7 @@ public class Talker extends AbstractNodeMain {
     }
 
     public void setThrotitleEnablePublisher(boolean value) {
-        throtitleEnablePublisher = connectedNode.newPublisher("can/throttle_enable", Bool._TYPE);
+        throtitleEnablePublisher = connectedNode.newPublisher("can/throtitle_enable", Bool._TYPE);
         std_msgs.Bool throtitleEnable = throtitleEnablePublisher.newMessage();
         throtitleEnable.setData(value);
         throtitleEnablePublisher.publish(throtitleEnable);

@@ -153,6 +153,9 @@ public class JoystickActivity extends AppCompatRosActivity {
     public void userSentsVehicleMode(int mode) {
         if(talker != null) {
             talker.publisherForVehicleMode(mode);
+            talker.setThrotitleEnablePublisher(true);
+            talker.setSteeringEnablePublisher(true);
+            talker.setBrakeEnablePublisher(true);
         } else {
             returnForBeWithoutMaster();
         }

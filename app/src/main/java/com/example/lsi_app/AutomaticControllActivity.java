@@ -339,6 +339,9 @@ public class AutomaticControllActivity extends AppCompatRosActivity {
             userSentsVehicleMode(0);
         } else {
             userSentsVehicleMode(1);
+            talker.setThrotitleEnablePublisher(false);
+            talker.setSteeringEnablePublisher(false);
+            talker.setBrakeEnablePublisher(false);
         }
     }
 
