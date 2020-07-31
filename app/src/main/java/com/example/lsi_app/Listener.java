@@ -8,7 +8,6 @@ import org.ros.node.ConnectedNode;
 import org.ros.node.topic.Subscriber;
 
 import sensor_msgs.CompressedImage;
-import sensor_msgs.Image;
 import sensor_msgs.NavSatFix;
 import std_msgs.Float64;
 import std_msgs.Header;
@@ -76,18 +75,18 @@ public class Listener extends AbstractNodeMain {
                             int diferenceInS = finals - initials;
                             int diferenceInNs = finalns - initialns;
 
-                            if (diferenceInS >= 1 || diferenceInNs >= 1000000000) {
-                                automaticControllActivity.hideGreenStillAlive();
-                                automaticControllActivity.hideOrangeStillAlive();
-                                automaticControllActivity.showRedStillAlive();
-                            } else if (diferenceInS >= 0.2 || diferenceInNs >= 200000000) {
-                                automaticControllActivity.hideGreenStillAlive();
-                                automaticControllActivity.hideRedStillAlive();
-                                automaticControllActivity.showOrangeStillAlive();
-                            } else {
+                            if (diferenceInS <= 0.2 || diferenceInNs <= 200000000) {
                                 automaticControllActivity.hideRedStillAlive();
                                 automaticControllActivity.hideOrangeStillAlive();
                                 automaticControllActivity.showGreenStillAlive();
+                            } else if(diferenceInS >= 1 || diferenceInNs >= 1000000000) {
+                                automaticControllActivity.hideGreenStillAlive();
+                                automaticControllActivity.hideOrangeStillAlive();
+                                automaticControllActivity.showRedStillAlive();
+                            } else {
+                                automaticControllActivity.hideGreenStillAlive();
+                                automaticControllActivity.hideRedStillAlive();
+                                automaticControllActivity.showOrangeStillAlive();
                             }
                         }
                         time = header.getStamp();
@@ -96,7 +95,7 @@ public class Listener extends AbstractNodeMain {
             }
         });
 
-        speedSubscriber = connectedNode.newSubscriber("speed", Float64._TYPE);
+        speedSubscriber = connectedNode.newSubscriber("/can/current_speed", Float64._TYPE);
         speedSubscriber.addMessageListener(new MessageListener<Float64>() {
             @Override
             public void onNewMessage(final Float64 float64) {
@@ -109,7 +108,7 @@ public class Listener extends AbstractNodeMain {
             }
         });
 
-        steeringSubscriber = connectedNode.newSubscriber("steering_angle", Float64._TYPE);
+        steeringSubscriber = connectedNode.newSubscriber("/can/current_steering", Float64._TYPE);
         steeringSubscriber.addMessageListener(new MessageListener<Float64>() {
             @Override
             public void onNewMessage(final Float64 float64) {
@@ -139,18 +138,18 @@ public class Listener extends AbstractNodeMain {
                             int diferenceInS = finals - initials;
                             int diferenceInNs = finalns - initialns;
 
-                            if (diferenceInS >= 1 || diferenceInNs >= 1000000000) {
-                                joystickActivity.hideGreenStillAlive();
-                                joystickActivity.hideOrangeStillAlive();
-                                joystickActivity.showRedStillAlive();
-                            } else if (diferenceInS >= 0.2 || diferenceInNs >= 200000000) {
-                                joystickActivity.hideGreenStillAlive();
-                                joystickActivity.hideRedStillAlive();
-                                joystickActivity.showOrangeStillAlive();
-                            } else {
+                            if (diferenceInS <= 0.2 || diferenceInNs <= 200000000) {
                                 joystickActivity.hideRedStillAlive();
                                 joystickActivity.hideOrangeStillAlive();
                                 joystickActivity.showGreenStillAlive();
+                            } else if(diferenceInS >= 1 || diferenceInNs >= 1000000000) {
+                                joystickActivity.hideGreenStillAlive();
+                                joystickActivity.hideOrangeStillAlive();
+                                joystickActivity.showRedStillAlive();
+                            } else {
+                                joystickActivity.hideGreenStillAlive();
+                                joystickActivity.hideRedStillAlive();
+                                joystickActivity.showOrangeStillAlive();
                             }
                         }
                         time = header.getStamp();
@@ -159,7 +158,7 @@ public class Listener extends AbstractNodeMain {
             }
         });
 
-        speedSubscriber = connectedNode.newSubscriber("speed", Float64._TYPE);
+        speedSubscriber = connectedNode.newSubscriber("/can/current_speed", Float64._TYPE);
         speedSubscriber.addMessageListener(new MessageListener<Float64>() {
             @Override
             public void onNewMessage(final Float64 float64) {
@@ -172,7 +171,7 @@ public class Listener extends AbstractNodeMain {
             }
         });
 
-        steeringSubscriber = connectedNode.newSubscriber("steering_angle", Float64._TYPE);
+        steeringSubscriber = connectedNode.newSubscriber("/can/current_steering", Float64._TYPE);
         steeringSubscriber.addMessageListener(new MessageListener<Float64>() {
             @Override
             public void onNewMessage(final Float64 float64) {
@@ -202,18 +201,18 @@ public class Listener extends AbstractNodeMain {
                             int diferenceInS = finals - initials;
                             int diferenceInNs = finalns - initialns;
 
-                            if (diferenceInS >= 1 || diferenceInNs >= 1000000000) {
-                                visualizationActivity.hideGreenStillAlive();
-                                visualizationActivity.hideOrangeStillAlive();
-                                visualizationActivity.showRedStillAlive();
-                            } else if (diferenceInS >= 0.2 || diferenceInNs >= 200000000) {
-                                visualizationActivity.hideGreenStillAlive();
-                                visualizationActivity.hideRedStillAlive();
-                                visualizationActivity.showOrangeStillAlive();
-                            } else {
+                            if (diferenceInS <= 0.2 || diferenceInNs <= 200000000) {
                                 visualizationActivity.hideRedStillAlive();
                                 visualizationActivity.hideOrangeStillAlive();
                                 visualizationActivity.showGreenStillAlive();
+                            } else if(diferenceInS >= 1 || diferenceInNs >= 1000000000) {
+                                visualizationActivity.hideGreenStillAlive();
+                                visualizationActivity.hideOrangeStillAlive();
+                                visualizationActivity.showRedStillAlive();
+                            } else {
+                                visualizationActivity.hideGreenStillAlive();
+                                visualizationActivity.hideRedStillAlive();
+                                visualizationActivity.showOrangeStillAlive();
                             }
                         }
                         time = header.getStamp();

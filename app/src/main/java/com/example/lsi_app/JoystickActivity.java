@@ -21,7 +21,7 @@ public class JoystickActivity extends AppCompatRosActivity {
     private Listener listener;
     private TextView steeringTextView;
     private TextView speedTextView;
-    private JoystickView throtitleBrakeJoystickView;
+    private JoystickView throttleBrakeJoystickView;
     private JoystickView steeringJoystickView;
     private ImageView continueImageView;
     private ImageView pauseImageView;
@@ -62,7 +62,7 @@ public class JoystickActivity extends AppCompatRosActivity {
     private void findViews() {
         steeringTextView = findViewById(R.id.steering_number_text_view);
         speedTextView = findViewById(R.id.speed_number_textView);
-        throtitleBrakeJoystickView = findViewById(R.id.virtual_joystick_vertical_view);
+        throttleBrakeJoystickView = findViewById(R.id.virtual_joystick_vertical_view);
         steeringJoystickView = findViewById(R.id.virtual_joystick_horizontal_view);
         continueImageView = findViewById(R.id.continue_button);
         pauseImageView = findViewById(R.id.pause_button);
@@ -153,9 +153,9 @@ public class JoystickActivity extends AppCompatRosActivity {
     public void userSentsVehicleMode(int mode) {
         if(talker != null) {
             talker.publisherForVehicleMode(mode);
-            talker.setThrotitleEnablePublisher(true);
-            talker.setSteeringEnablePublisher(true);
-            talker.setBrakeEnablePublisher(true);
+            talker.setThrottleEnablePublisher(false);
+            talker.setSteeringEnablePublisher(false);
+            talker.setBrakeEnablePublisher(false);
         } else {
             returnForBeWithoutMaster();
         }
@@ -186,20 +186,24 @@ public class JoystickActivity extends AppCompatRosActivity {
     }
 
     public void setGeneralSpeedText(double data) {
+        data = ((double) Math.round(data * 1000d)/ 1000d);
         speedTextView.setText(String.valueOf(data));
     }
 
     public void setGeneralSteeringText(double data) {
+        data = ((double) Math.round(data * 1000d)/ 1000d);
         steeringTextView.setText(String.valueOf(data));
     }
 
     private void callToJoysticks() {
+        talker.createPublisherForJoystick();
         steeringJoystickView.setOnMoveListener(new JoystickView.OnMoveListener() {
             @Override
             public void onMove(int angle, int strength) {
                 if(angle < 180) {
                     if(talker != null) {
-                        talker.publisherForSteering(angle);
+                        float angleFinal = (float) (angle * Math.PI / 180);
+                        talker.publisherForSteering(angleFinal);
                     } else {
                         returnForBeWithoutMaster();
                     }
@@ -207,13 +211,13 @@ public class JoystickActivity extends AppCompatRosActivity {
             }
         });
 
-        throtitleBrakeJoystickView.setOnMoveListener(new JoystickView.OnMoveListener() {
+        throttleBrakeJoystickView.setOnMoveListener(new JoystickView.OnMoveListener() {
             @Override
             public void onMove(int angle, int strength) {
                 float realVelocity = (strength * 100) / MAX_DEFAULT_SPEED;
                 if(angle < 270) {
                     if (talker != null) {
-                        talker.publisherForBrakeAndThrotitle(realVelocity);
+                        talker.publisherForBrakeAndThrottle(realVelocity);
                     } else {
                         returnForBeWithoutMaster();
                     }
@@ -222,7 +226,7 @@ public class JoystickActivity extends AppCompatRosActivity {
                 if(angle > 270) {
                     realVelocity = Math.abs(((strength * 100) / MAX_DEFAULT_SPEED) - 100);
                     if(talker != null) {
-                        talker.publisherForBrakeAndThrotitle(realVelocity);
+                        talker.publisherForBrakeAndThrottle(realVelocity);
                     } else {
                         returnForBeWithoutMaster();
                     }

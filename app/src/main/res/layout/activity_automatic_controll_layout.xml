@@ -94,82 +94,58 @@
             </TextView>
         </RelativeLayout>
 
-        <!--<RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_toEndOf="@id/speed_relativelayout"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="30dp"
-            android:layout_toRightOf="@id/speed_relativelayout">
+        <ImageView
+            android:id="@+id/stillAlive_green_imageview"
+            android:layout_width="35dp"
+            android:layout_height="40dp"
+            android:src="@mipmap/green_user"
+            android:layout_marginTop="18dp"
+            android:visibility="gone"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="18dp">
+        </ImageView>
 
-            <TextView
-                android:id="@+id/battery_textview"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Batería"
-                android:textColor="@color/black"
-                android:layout_marginRight="10dp"
-                android:layout_marginTop="2dp">
-            </TextView>
+        <ImageView
+            android:id="@+id/stillAlive_orange_imageview"
+            android:layout_width="35dp"
+            android:layout_height="40dp"
+            android:src="@mipmap/orange_user"
+            android:layout_marginTop="18dp"
+            android:visibility="gone"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="18dp">
+        </ImageView>
 
-            <ProgressBar
-                android:id="@+id/battery_progressbar"
-                android:layout_width="70dp"
-                android:layout_height="25dp"
-                android:layout_toRightOf="@id/battery_textview"
-                android:max="100"
-                android:text="5%"
-                android:textColor="@color/black"
-                android:indeterminate="false"
-                style="?android:attr/progressBarStyleHorizontal">
-            </ProgressBar>
-
-            <TextView
-                android:id="@+id/ups_textview"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="UPS"
-                android:layout_marginTop="30dp"
-                android:textColor="@color/black"
-                android:layout_below="@+id/battery_textview"
-                android:layout_marginRight="10dp">
-            </TextView>
-
-            <ProgressBar
-                android:id="@+id/ups_progressbar"
-                android:layout_width="70dp"
-                android:layout_height="25dp"
-                android:layout_below="@id/battery_progressbar"
-                android:max="100"
-                android:text="10%"
-                android:textColor="@color/black"
-                android:indeterminate="false"
-                android:layout_toEndOf="@id/ups_textview"
-                android:layout_marginTop="25dp"
-                android:layout_marginLeft="18dp"
-                style="?android:attr/progressBarStyleHorizontal"
-                android:layout_toRightOf="@id/ups_textview">
-            </ProgressBar>
-
-        </RelativeLayout> -->
+        <ImageView
+            android:id="@+id/stillAlive_red_imageview"
+            android:layout_width="35dp"
+            android:layout_height="40dp"
+            android:src="@mipmap/red_user"
+            android:layout_marginTop="18dp"
+            android:visibility="gone"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="18dp">
+        </ImageView>
     </RelativeLayout>
 
-    <RelativeLayout
+    <LinearLayout
         android:id="@+id/automatic_switch_relativelayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/first_automatic_relativelayout"
         android:layout_marginTop="10dp"
         android:layout_centerHorizontal="true"
-        android:visibility="gone">
+        android:visibility="gone"
+        android:orientation="horizontal">
 
         <RelativeLayout
-            android:id="@+id/throtitle_relativelayout"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+            android:id="@+id/throttle_relativelayout"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight=".33">
 
             <TextView
-                android:id="@+id/throtitle_textview"
+                android:id="@+id/throttle_textview"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
@@ -178,38 +154,44 @@
                 android:textColor="@color/black">
             </TextView>
 
-            <Button
-                android:id="@+id/auto_throtitle_button"
-                android:layout_width="110dp"
-                android:layout_height="50dp"
-                android:text="Auto"
-                android:layout_marginLeft="10dp"
-                android:textColor="@color/black"
-                android:textSize="20dp"
-                android:layout_below="@id/throtitle_textview"
-                android:background="@color/grey_light">
-            </Button>
-            <Button
-                android:id="@+id/manual_throtitle_button"
-                android:layout_width="110dp"
-                android:layout_height="50dp"
-                android:text="Manual"
-                android:layout_marginLeft="5dp"
-                android:textColor="@color/black"
-                android:textSize="20dp"
-                android:layout_below="@id/throtitle_textview"
-                android:layout_toEndOf="@id/auto_throtitle_button"
-                android:background="@color/grey_light"
-                android:layout_toRightOf="@id/auto_throtitle_button">
-            </Button>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:weightSum="1"
+                android:layout_below="@id/throttle_textview">
+
+                <Button
+                    android:id="@+id/auto_throttle_button"
+                    android:layout_width="0dp"
+                    android:layout_height="50dp"
+                    android:layout_weight=".50"
+                    android:text="Auto"
+                    android:layout_marginStart="10dp"
+                    android:textColor="@color/black"
+                    android:textSize="20dp"
+                    android:background="@color/grey_light">
+                </Button>
+
+                <Button
+                    android:id="@+id/manual_throttle_button"
+                    android:layout_width="0dp"
+                    android:layout_height="50dp"
+                    android:layout_weight=".50"
+                    android:text="Manual"
+                    android:layout_marginStart="5dp"
+                    android:textColor="@color/black"
+                    android:textSize="20dp"
+                    android:background="@color/grey_light">
+                </Button>
+            </LinearLayout>
         </RelativeLayout>
 
         <RelativeLayout
             android:id="@+id/brake_relativelayout"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_toEndOf="@id/throtitle_relativelayout"
-            android:layout_toRightOf="@id/throtitle_relativelayout">
+            android:layout_weight=".33">
 
             <TextView
                 android:id="@+id/brake_textview"
@@ -221,38 +203,44 @@
                 android:textColor="@color/black">
             </TextView>
 
-            <Button
-                android:id="@+id/auto_brake_button"
-                android:layout_width="110dp"
-                android:layout_height="50dp"
-                android:text="Auto"
-                android:layout_marginLeft="10dp"
-                android:textColor="@color/black"
-                android:textSize="20dp"
-                android:layout_below="@id/brake_textview"
-                android:background="@color/grey_light">
-            </Button>
-            <Button
-                android:id="@+id/manual_brake_button"
-                android:layout_width="110dp"
-                android:layout_height="50dp"
-                android:text="Manual"
-                android:layout_marginLeft="5dp"
-                android:textColor="@color/black"
-                android:textSize="20dp"
-                android:layout_below="@id/brake_textview"
-                android:layout_toEndOf="@id/auto_brake_button"
-                android:background="@color/grey_light"
-                android:layout_toRightOf="@id/auto_brake_button">
-            </Button>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:weightSum="1"
+                android:layout_below="@id/brake_textview">
+
+                <Button
+                    android:id="@+id/auto_brake_button"
+                    android:layout_width="0dp"
+                    android:layout_height="50dp"
+                    android:layout_weight=".50"
+                    android:text="Auto"
+                    android:layout_marginStart="10dp"
+                    android:textColor="@color/black"
+                    android:textSize="20dp"
+                    android:background="@color/grey_light">
+                </Button>
+
+                <Button
+                    android:id="@+id/manual_brake_button"
+                    android:layout_width="0dp"
+                    android:layout_height="50dp"
+                    android:layout_weight=".50"
+                    android:text="Manual"
+                    android:layout_marginStart="5dp"
+                    android:textColor="@color/black"
+                    android:textSize="20dp"
+                    android:background="@color/grey_light">
+                </Button>
+            </LinearLayout>
         </RelativeLayout>
 
         <RelativeLayout
             android:id="@+id/steering_relativelayout"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_toEndOf="@id/brake_relativelayout"
-            android:layout_toRightOf="@id/brake_relativelayout">
+            android:layout_weight=".33">
 
             <TextView
                 android:id="@+id/steering_textview"
@@ -264,32 +252,39 @@
                 android:textColor="@color/black">
             </TextView>
 
-            <Button
-                android:id="@+id/auto_steering_button"
-                android:layout_width="110dp"
-                android:layout_height="50dp"
-                android:text="Auto"
-                android:layout_marginLeft="10dp"
-                android:textColor="@color/black"
-                android:textSize="20dp"
-                android:layout_below="@id/steering_textview"
-                android:background="@color/grey_light">
-            </Button>
-            <Button
-                android:id="@+id/manual_steering_button"
-                android:layout_width="110dp"
-                android:layout_height="50dp"
-                android:text="Manual"
-                android:layout_marginLeft="5dp"
-                android:textColor="@color/black"
-                android:textSize="20dp"
-                android:layout_below="@id/steering_textview"
-                android:layout_toEndOf="@id/auto_steering_button"
-                android:background="@color/grey_light"
-                android:layout_toRightOf="@id/auto_steering_button">
-            </Button>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:weightSum="1"
+                android:layout_below="@id/steering_textview">
+
+                <Button
+                    android:id="@+id/auto_steering_button"
+                    android:layout_width="0dp"
+                    android:layout_height="50dp"
+                    android:layout_weight=".50"
+                    android:text="Auto"
+                    android:layout_marginStart="10dp"
+                    android:textColor="@color/black"
+                    android:textSize="20dp"
+                    android:background="@color/grey_light">
+                </Button>
+
+                <Button
+                    android:id="@+id/manual_steering_button"
+                    android:layout_width="0dp"
+                    android:layout_height="50dp"
+                    android:layout_weight=".50"
+                    android:text="Manual"
+                    android:layout_marginStart="5dp"
+                    android:textColor="@color/black"
+                    android:textSize="20dp"
+                    android:background="@color/grey_light">
+                </Button>
+            </LinearLayout>
         </RelativeLayout>
-    </RelativeLayout>
+    </LinearLayout>
 
     <RelativeLayout
         android:layout_width="wrap_content"
@@ -333,7 +328,6 @@
             android:layout_toEndOf="@id/virtual_joystick_vertical_view"
             android:layout_toRightOf="@id/virtual_joystick_vertical_view">
         </io.github.controlwear.virtual.joystick.android.JoystickView>
-
     </RelativeLayout>
 
     <RelativeLayout
@@ -408,45 +402,6 @@
         android:layout_toEndOf="@id/h_infinite_mode_button"
         android:layout_toRightOf="@id/h_infinite_mode_button" />
     </RelativeLayout>
-
-    <ImageView
-        android:id="@+id/stillAlive_green_imageview"
-        android:layout_width="35dp"
-        android:layout_height="40dp"
-        android:src="@mipmap/green_user"
-        android:layout_above="@id/emergency_button"
-        android:layout_alignParentEnd="true"
-        android:layout_marginEnd="18dp"
-        android:visibility="gone"
-        android:layout_alignParentRight="true"
-        android:layout_marginRight="18dp">
-    </ImageView>
-
-    <ImageView
-        android:id="@+id/stillAlive_orange_imageview"
-        android:layout_width="35dp"
-        android:layout_height="40dp"
-        android:src="@mipmap/orange_user"
-        android:layout_above="@id/emergency_button"
-        android:layout_alignParentEnd="true"
-        android:layout_marginEnd="18dp"
-        android:visibility="gone"
-        android:layout_alignParentRight="true"
-        android:layout_marginRight="18dp">
-    </ImageView>
-
-    <ImageView
-        android:id="@+id/stillAlive_red_imageview"
-        android:layout_width="35dp"
-        android:layout_height="40dp"
-        android:src="@mipmap/red_user"
-        android:layout_above="@id/emergency_button"
-        android:layout_alignParentEnd="true"
-        android:layout_marginEnd="18dp"
-        android:visibility="gone"
-        android:layout_alignParentRight="true"
-        android:layout_marginRight="18dp">
-    </ImageView>
 
     <ImageView
         android:id="@+id/emergency_button"

@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -20,8 +21,8 @@ public class AutomaticControllActivity extends AppCompatRosActivity {
     private float MAX_DEFAULT_SPEED = 33.33f;
 
     private Button automaticButton;
-    private Button throtitleAutoButton;
-    private Button throtitleManualButton;
+    private Button throttleAutoButton;
+    private Button throttleManualButton;
     private Button steeringAutoButton;
     private Button steeringManualButton;
     private Button brakeAutoButton;
@@ -38,13 +39,13 @@ public class AutomaticControllActivity extends AppCompatRosActivity {
     private ImageView stillAliveGreenImageView;
     private ImageView stillAliveOrangeImageView;
     private ImageView stillAliveRedImageView;
-    private RelativeLayout automaticSwitchRelativeLayout;
+    private LinearLayout automaticSwitchRelativeLayout;
     private RelativeLayout autoModesRelativeLayout;
     private JoystickView virtualJoystickHorizontalView;
     private JoystickView virtualJoystickVerticalView;
     private boolean automaticButtonState;
     private boolean brakeDisplayed;
-    private boolean throtitleDisplayed;
+    private boolean throttleDisplayed;
     private Talker talker;
     private Listener listener;
 
@@ -80,8 +81,8 @@ public class AutomaticControllActivity extends AppCompatRosActivity {
     private void findViews(){
         automaticButton = findViewById(R.id.automatic_controll_button);
         automaticSwitchRelativeLayout = findViewById(R.id.automatic_switch_relativelayout);
-        throtitleAutoButton = findViewById(R.id.auto_throtitle_button);
-        throtitleManualButton = findViewById(R.id.manual_throtitle_button);
+        throttleAutoButton = findViewById(R.id.auto_throttle_button);
+        throttleManualButton = findViewById(R.id.manual_throttle_button);
         steeringAutoButton = findViewById(R.id.auto_steering_button);
         steeringManualButton = findViewById(R.id.manual_steering_button);
         brakeAutoButton = findViewById(R.id.auto_brake_button);
@@ -119,17 +120,17 @@ public class AutomaticControllActivity extends AppCompatRosActivity {
             }
         });
 
-        throtitleAutoButton.setOnClickListener(new View.OnClickListener() {
+        throttleAutoButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                userClickThrotitleAutoButton();
+                userClickThrottleAutoButton();
             }
         });
 
-        throtitleManualButton.setOnClickListener(new View.OnClickListener() {
+        throttleManualButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                userClickThrotitleManualButton();
+                userClickThrottleManualButton();
             }
         });
 
@@ -217,7 +218,7 @@ public class AutomaticControllActivity extends AppCompatRosActivity {
             automaticSwitchRelativeLayout.setVisibility(View.VISIBLE);
             userClickBrakeAutoButton();
             userClickSteeringAutoButton();
-            userClickThrotitleAutoButton();
+            userClickThrottleAutoButton();
             setInitialDesignForModeButtons();
             autoModesRelativeLayout.setVisibility(View.GONE);
             automaticButtonState = true;
@@ -231,9 +232,9 @@ public class AutomaticControllActivity extends AppCompatRosActivity {
             setInitialDesignForButtons();
             userSentsVehicleMode(1);
             if(talker != null) {
-                talker.setThrotitleEnablePublisher(false);
-                talker.setSteeringEnablePublisher(false);
-                talker.setBrakeEnablePublisher(false);
+                talker.setThrottleEnablePublisher(true);
+                talker.setSteeringEnablePublisher(true);
+                talker.setBrakeEnablePublisher(true);
             } else {
                 returnForBeWithoutMaster();
             }
@@ -241,33 +242,34 @@ public class AutomaticControllActivity extends AppCompatRosActivity {
         }
     }
 
-    private void userClickThrotitleAutoButton() {
-        throtitleAutoButton.setBackgroundColor(getResources().getColor(R.color.green));
-        throtitleManualButton.setBackgroundColor(getResources().getColor(R.color.grey_light));
-        throtitleDisplayed = false;
+    private void userClickThrottleAutoButton() {
+        throttleAutoButton.setBackgroundColor(getResources().getColor(R.color.green));
+        throttleManualButton.setBackgroundColor(getResources().getColor(R.color.grey_light));
+        throttleDisplayed = false;
 
         if(!brakeDisplayed) {
            virtualJoystickVerticalView.setVisibility(View.GONE);
         }
         if(talker != null) {
-            talker.setThrotitleEnablePublisher(false);
+            talker.setThrottleEnablePublisher(true);
         } else {
             returnForBeWithoutMaster();
         }
     }
 
-    private void userClickThrotitleManualButton() {
-        throtitleAutoButton.setBackgroundColor(getResources().getColor(R.color.grey_light));
-        throtitleManualButton.setBackgroundColor(getResources().getColor(R.color.green));
+    private void userClickThrottleManualButton() {
+        throttleAutoButton.setBackgroundColor(getResources().getColor(R.color.grey_light));
+        throttleManualButton.setBackgroundColor(getResources().getColor(R.color.green));
 
-        throtitleDisplayed = true;
+        throttleDisplayed = true;
         virtualJoystickVerticalView.setVisibility(View.VISIBLE);
         if(talker != null) {
-            talker.setThrotitleEnablePublisher(true);
+            talker.setThrottleEnablePublisher(false);
+            talker.createPublisherForJoystick();
+            joystickVerticalFuncionality();
         } else {
             returnForBeWithoutMaster();
         }
-        joystickVerticalFuncionality();
     }
 
     private void userClickSteeringAutoButton() {
@@ -276,7 +278,7 @@ public class AutomaticControllActivity extends AppCompatRosActivity {
 
         virtualJoystickHorizontalView.setVisibility(View.GONE);
         if(talker != null) {
-            talker.setSteeringEnablePublisher(false);
+            talker.setSteeringEnablePublisher(true);
         } else {
             returnForBeWithoutMaster();
         }
@@ -288,11 +290,12 @@ public class AutomaticControllActivity extends AppCompatRosActivity {
 
         virtualJoystickHorizontalView.setVisibility(View.VISIBLE);
         if(talker != null) {
-            talker.setSteeringEnablePublisher(true);
+            talker.setSteeringEnablePublisher(false);
+            talker.createPublisherForJoystick();
+            joystickHorizontalFuncionality();
         } else {
             returnForBeWithoutMaster();
         }
-        joystickHorizontalFuncionality();
     }
 
     private void userClickBrakeAutoButton() {
@@ -300,11 +303,11 @@ public class AutomaticControllActivity extends AppCompatRosActivity {
         brakeManualButton.setBackgroundColor(getResources().getColor(R.color.grey_light));
 
         brakeDisplayed = false;
-        if(!throtitleDisplayed) {
+        if(!throttleDisplayed) {
             virtualJoystickVerticalView.setVisibility(View.GONE);
         }
         if(talker != null) {
-            talker.setBrakeEnablePublisher(false);
+            talker.setBrakeEnablePublisher(true);
         } else {
             returnForBeWithoutMaster();
         }
@@ -317,11 +320,12 @@ public class AutomaticControllActivity extends AppCompatRosActivity {
         brakeDisplayed = true;
         virtualJoystickVerticalView.setVisibility(View.VISIBLE);
         if(talker != null) {
-            talker.setBrakeEnablePublisher(true);
+            talker.setBrakeEnablePublisher(false);
+            talker.createPublisherForJoystick();
+            joystickVerticalFuncionality();
         } else {
             returnForBeWithoutMaster();
         }
-        joystickVerticalFuncionality();
     }
 
     private void userClickContinueButton() {
@@ -339,9 +343,9 @@ public class AutomaticControllActivity extends AppCompatRosActivity {
             userSentsVehicleMode(0);
         } else {
             userSentsVehicleMode(1);
-            talker.setThrotitleEnablePublisher(false);
-            talker.setSteeringEnablePublisher(false);
-            talker.setBrakeEnablePublisher(false);
+            talker.setThrottleEnablePublisher(true);
+            talker.setSteeringEnablePublisher(true);
+            talker.setBrakeEnablePublisher(true);
         }
     }
 
@@ -351,7 +355,8 @@ public class AutomaticControllActivity extends AppCompatRosActivity {
             public void onMove(int angle, int strength) {
                 if(angle < 180) {
                     if(talker != null) {
-                        talker.publisherForSteering(angle);
+                        float angleFinal = (float) (angle * Math.PI / 180);
+                        talker.publisherForSteering(angleFinal);
                     } else {
                         returnForBeWithoutMaster();
                     }
@@ -365,9 +370,9 @@ public class AutomaticControllActivity extends AppCompatRosActivity {
             @Override
             public void onMove(int angle, int strength) {
                 float realVelocity = (strength * 100) / MAX_DEFAULT_SPEED;
-                if(throtitleDisplayed && angle < 270) {
+                if(throttleDisplayed && angle < 270) {
                     if(talker != null) {
-                        talker.publisherForBrakeAndThrotitle(realVelocity);
+                        talker.publisherForBrakeAndThrottle(realVelocity);
                     } else {
                         returnForBeWithoutMaster();
                     }
@@ -376,7 +381,7 @@ public class AutomaticControllActivity extends AppCompatRosActivity {
                 if(brakeDisplayed && angle > 270) {
                     realVelocity = Math.abs(((strength * 100) / MAX_DEFAULT_SPEED) - 100);
                     if(talker != null) {
-                        talker.publisherForBrakeAndThrotitle(realVelocity);
+                        talker.publisherForBrakeAndThrottle(realVelocity);
                     } else {
                         returnForBeWithoutMaster();
                     }
@@ -434,8 +439,8 @@ public class AutomaticControllActivity extends AppCompatRosActivity {
     }
 
     private void setInitialDesignForButtons(){
-        throtitleAutoButton.setBackgroundColor(getResources().getColor(R.color.grey_light));
-        throtitleManualButton.setBackgroundColor(getResources().getColor(R.color.grey_light));
+        throttleAutoButton.setBackgroundColor(getResources().getColor(R.color.grey_light));
+        throttleManualButton.setBackgroundColor(getResources().getColor(R.color.grey_light));
         steeringAutoButton.setBackgroundColor(getResources().getColor(R.color.grey_light));
         steeringManualButton.setBackgroundColor(getResources().getColor(R.color.grey_light));
         brakeAutoButton.setBackgroundColor(getResources().getColor(R.color.grey_light));
@@ -484,10 +489,12 @@ public class AutomaticControllActivity extends AppCompatRosActivity {
     }
 
     public void setGeneralSpeedText(double float64) {
+        float64 = ((double) Math.round(float64 * 1000d)/ 1000d);
         generalSpeedTextView.setText(String.valueOf(float64));
     }
 
     public void setGeneralSteeringText(double float64) {
+        float64 = ((double) Math.round(float64 * 1000d)/ 1000d);
         generalSteeringTextView.setText(String.valueOf(float64));
     }
 
