@@ -93,39 +93,6 @@
                 android:textSize="40dp">
             </TextView>
         </RelativeLayout>
-
-        <ImageView
-            android:id="@+id/stillAlive_green_imageview"
-            android:layout_width="35dp"
-            android:layout_height="40dp"
-            android:src="@mipmap/green_user"
-            android:layout_marginTop="18dp"
-            android:visibility="gone"
-            android:layout_alignParentRight="true"
-            android:layout_marginRight="18dp">
-        </ImageView>
-
-        <ImageView
-            android:id="@+id/stillAlive_orange_imageview"
-            android:layout_width="35dp"
-            android:layout_height="40dp"
-            android:src="@mipmap/orange_user"
-            android:layout_marginTop="18dp"
-            android:visibility="gone"
-            android:layout_alignParentRight="true"
-            android:layout_marginRight="18dp">
-        </ImageView>
-
-        <ImageView
-            android:id="@+id/stillAlive_red_imageview"
-            android:layout_width="35dp"
-            android:layout_height="40dp"
-            android:src="@mipmap/red_user"
-            android:layout_marginTop="18dp"
-            android:visibility="gone"
-            android:layout_alignParentRight="true"
-            android:layout_marginRight="18dp">
-        </ImageView>
     </RelativeLayout>
 
     <LinearLayout
@@ -278,6 +245,7 @@
                     android:layout_weight=".50"
                     android:text="Manual"
                     android:layout_marginStart="5dp"
+                    android:layout_marginEnd="10dp"
                     android:textColor="@color/black"
                     android:textSize="20dp"
                     android:background="@color/grey_light">
@@ -427,4 +395,44 @@
         android:layout_alignParentRight="true"
         android:layout_marginRight="10dp">
     </ImageView>
+
+    <ImageView
+        android:id="@+id/stillAlive_green_imageview"
+        android:layout_width="35dp"
+        android:layout_height="40dp"
+        android:src="@mipmap/green_user"
+        android:layout_marginTop="18dp"
+        android:visibility="gone"
+        android:layout_toStartOf="@id/exit_button"
+        android:layout_marginEnd="18dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="10dp">
+    </ImageView>
+
+    <ImageView
+        android:id="@+id/stillAlive_orange_imageview"
+        android:layout_width="35dp"
+        android:layout_height="40dp"
+        android:src="@mipmap/orange_user"
+        android:layout_marginTop="18dp"
+        android:visibility="gone"
+        android:layout_toStartOf="@id/exit_button"
+        android:layout_marginEnd="18dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="10dp">
+    </ImageView>
+
+    <ImageView
+        android:id="@+id/stillAlive_red_imageview"
+        android:layout_width="35dp"
+        android:layout_height="40dp"
+        android:src="@mipmap/red_user"
+        android:layout_marginTop="18dp"
+        android:visibility="gone"
+        android:layout_toStartOf="@id/exit_button"
+        android:layout_marginEnd="18dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="10dp">
+    </ImageView>
+
 </RelativeLayout>
