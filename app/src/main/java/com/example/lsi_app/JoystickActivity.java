@@ -39,7 +39,6 @@ public class JoystickActivity extends AppCompatRosActivity {
         findViews();
         setItemsDesign();
         onClickListenerForButtons();
-        callToJoysticks();
     }
 
     @Override
@@ -196,7 +195,9 @@ public class JoystickActivity extends AppCompatRosActivity {
     }
 
     private void callToJoysticks() {
-        talker.createPublisherForJoystick();
+        if(talker != null) {
+            talker.createPublisherForJoystick();
+        }
         steeringJoystickView.setOnMoveListener(new JoystickView.OnMoveListener() {
             @Override
             public void onMove(int angle, int strength) {
