@@ -82,7 +82,7 @@ public class Talker extends AbstractNodeMain {
     }
 
     public void createPublisherForJoystick() {
-        ackermannPublisher = connectedNode.newPublisher("ackermannSteeringPhone", AckermannDriveStamped._TYPE);
+        ackermannPublisher = connectedNode.newPublisher("ackermannPhone", AckermannDriveStamped._TYPE);
     }
 
     public void publisherForPlayButton() {
