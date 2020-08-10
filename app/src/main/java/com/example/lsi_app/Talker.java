@@ -67,16 +67,16 @@ public class Talker extends AbstractNodeMain {
 
         if(automaticControllActivity != null) {
             publisherForVehicleMode(1);
-            setThrottleEnablePublisher(false);
-            setSteeringEnablePublisher(false);
-            setBrakeEnablePublisher(false);
+            setThrottleEnablePublisher(true);
+            setSteeringEnablePublisher(true);
+            setBrakeEnablePublisher(true);
         }
 
         if(joystickActivity != null) {
             publisherForVehicleMode(0);
-            setThrottleEnablePublisher(true);
-            setSteeringEnablePublisher(true);
-            setBrakeEnablePublisher(true);
+            setThrottleEnablePublisher(false);
+            setSteeringEnablePublisher(false);
+            setBrakeEnablePublisher(false);
             createPublisherForJoystick();
         }
     }
