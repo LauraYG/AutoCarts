@@ -75,18 +75,20 @@ public class Listener extends AbstractNodeMain {
                             int diferenceInS = finals - initials;
                             int diferenceInNs = finalns - initialns;
 
-                            if (diferenceInS <= 0.2 || diferenceInNs <= 200000000) {
-                                automaticControllActivity.hideRedStillAlive();
-                                automaticControllActivity.hideOrangeStillAlive();
-                                automaticControllActivity.showGreenStillAlive();
-                            } else if(diferenceInS >= 1 || diferenceInNs >= 1000000000) {
+                            if(diferenceInS >= 1 && diferenceInNs > 0) {
                                 automaticControllActivity.hideGreenStillAlive();
                                 automaticControllActivity.hideOrangeStillAlive();
                                 automaticControllActivity.showRedStillAlive();
                             } else {
-                                automaticControllActivity.hideGreenStillAlive();
-                                automaticControllActivity.hideRedStillAlive();
-                                automaticControllActivity.showOrangeStillAlive();
+                                if(diferenceInNs < 200000000 && diferenceInNs > 0) {
+                                    automaticControllActivity.hideRedStillAlive();
+                                    automaticControllActivity.hideOrangeStillAlive();
+                                    automaticControllActivity.showGreenStillAlive();
+                                } else if (diferenceInNs > 0){
+                                    automaticControllActivity.hideGreenStillAlive();
+                                    automaticControllActivity.hideRedStillAlive();
+                                    automaticControllActivity.showOrangeStillAlive();
+                                }
                             }
                         }
                         time = header.getStamp();
@@ -138,18 +140,20 @@ public class Listener extends AbstractNodeMain {
                             int diferenceInS = finals - initials;
                             int diferenceInNs = finalns - initialns;
 
-                            if (diferenceInS <= 0.2 || diferenceInNs <= 200000000) {
-                                joystickActivity.hideRedStillAlive();
-                                joystickActivity.hideOrangeStillAlive();
-                                joystickActivity.showGreenStillAlive();
-                            } else if(diferenceInS >= 1 || diferenceInNs >= 1000000000) {
+                            if(diferenceInS >= 1 && diferenceInNs > 0) {
                                 joystickActivity.hideGreenStillAlive();
                                 joystickActivity.hideOrangeStillAlive();
                                 joystickActivity.showRedStillAlive();
                             } else {
-                                joystickActivity.hideGreenStillAlive();
-                                joystickActivity.hideRedStillAlive();
-                                joystickActivity.showOrangeStillAlive();
+                                if(diferenceInNs < 200000000 && diferenceInNs > 0) {
+                                    joystickActivity.hideRedStillAlive();
+                                    joystickActivity.hideOrangeStillAlive();
+                                    joystickActivity.showGreenStillAlive();
+                                } else if (diferenceInNs > 0){
+                                    joystickActivity.hideGreenStillAlive();
+                                    joystickActivity.hideRedStillAlive();
+                                    joystickActivity.showOrangeStillAlive();
+                                }
                             }
                         }
                         time = header.getStamp();
@@ -201,18 +205,20 @@ public class Listener extends AbstractNodeMain {
                             int diferenceInS = finals - initials;
                             int diferenceInNs = finalns - initialns;
 
-                            if (diferenceInS <= 0.2 || diferenceInNs <= 200000000) {
-                                visualizationActivity.hideRedStillAlive();
-                                visualizationActivity.hideOrangeStillAlive();
-                                visualizationActivity.showGreenStillAlive();
-                            } else if(diferenceInS >= 1 || diferenceInNs >= 1000000000) {
+                            if(diferenceInS >= 1 && diferenceInNs > 0) {
                                 visualizationActivity.hideGreenStillAlive();
                                 visualizationActivity.hideOrangeStillAlive();
                                 visualizationActivity.showRedStillAlive();
                             } else {
-                                visualizationActivity.hideGreenStillAlive();
-                                visualizationActivity.hideRedStillAlive();
-                                visualizationActivity.showOrangeStillAlive();
+                                if(diferenceInNs < 200000000 && diferenceInNs > 0) {
+                                    visualizationActivity.hideRedStillAlive();
+                                    visualizationActivity.hideOrangeStillAlive();
+                                    visualizationActivity.showGreenStillAlive();
+                                } else if (diferenceInNs > 0){
+                                    visualizationActivity.hideGreenStillAlive();
+                                    visualizationActivity.hideRedStillAlive();
+                                    visualizationActivity.showOrangeStillAlive();
+                                }
                             }
                         }
                         time = header.getStamp();
